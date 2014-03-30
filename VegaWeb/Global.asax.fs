@@ -10,7 +10,10 @@ open System.Web.Optimization
 
 type BundleConfig() =
     static member RegisterBundles (bundles:BundleCollection) =
-        bundles.Add(ScriptBundle("~/bundles/jquery").Include([|"~/Scripts/jquery-{version}.js"|]))
+        bundles.Add(ScriptBundle("~/bundles/jquery").Include([| "~/Scripts/jquery-{version}.js" |]))
+        bundles.Add(ScriptBundle("~/bundles/d3").Include([| "~/Scripts/d3.js" |]))
+        bundles.Add(ScriptBundle("~/bundles/topojson").Include([| "~/Scripts/topojson.js" |]))
+        bundles.Add(ScriptBundle("~/bundles/vega").Include([| "~/Scripts/vega.js"; "~/Scripts/editor.js" |]))
 
         // Use the development version of Modernizr to develop with and learn from. Then, when you're
         // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -22,7 +25,8 @@ type BundleConfig() =
 
         bundles.Add(StyleBundle("~/Content/css").Include(
                         "~/Content/bootstrap.css",
-                        "~/Content/site.css"))
+                        "~/Content/site.css",
+                        "~/Content/editor.css"))
 
 /// Route for ASP.NET MVC applications
 type Route = { 
