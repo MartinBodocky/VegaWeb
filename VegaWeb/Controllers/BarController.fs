@@ -7,6 +7,7 @@ open System.Web
 open System.Web.Mvc
 open System.Web.Mvc.Ajax
 
-type EditorController() =
+type BarController() =
     inherit Controller()
     member this.Index () = this.View()
+
