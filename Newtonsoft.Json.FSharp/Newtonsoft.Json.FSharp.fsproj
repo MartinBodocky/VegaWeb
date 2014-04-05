@@ -5,13 +5,13 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>be5d4740-9457-4c8c-aa3b-f0172c47d499</ProjectGuid>
+    <ProjectGuid>7e647793-3607-4166-8943-dfae628ce7c4</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>VegaWeb.Share</RootNamespace>
-    <AssemblyName>VegaWeb.Share</AssemblyName>
+    <RootNamespace>Newtonsoft.Json.FSharp</RootNamespace>
+    <AssemblyName>Newtonsoft.Json.FSharp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
-    <Name>VegaWeb.Share</Name>
+    <Name>Newtonsoft.Json.FSharp</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +21,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Debug\VegaWeb.Share.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Newtonsoft.Json.FSharp.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,7 +30,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <DocumentationFile>bin\Release\VegaWeb.Share.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Newtonsoft.Json.FSharp.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
@@ -38,7 +38,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -46,18 +46,12 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JSON.fs" />
-    <Compile Include="Grammar.fs" />
-    <None Include="packages.config" />
-    <Compile Include="Bar.fs" />
+    <Compile Include="Library.fs" />
     <None Include="Script.fsx" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Newtonsoft.Json.FSharp\Newtonsoft.Json.FSharp.fsproj">
-      <Name>Newtonsoft.Json.FSharp</Name>
-      <Project>{7e647793-3607-4166-8943-dfae628ce7c4}</Project>
-      <Private>True</Private>
-    </ProjectReference>
+    <None Include="packages.config" />
+    <Compile Include="OptionConverter.fs" />
+    <Compile Include="TupleConverter.fs" />
+    <Compile Include="UnionConverter.fs" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
