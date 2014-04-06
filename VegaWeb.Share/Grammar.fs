@@ -1,11 +1,12 @@
-﻿namespace VegaWeb.Share
+﻿namespace VegaWeb
+
 
 module Grammar =
 
     open System.Collections.Generic
     open Newtonsoft.Json
     open Newtonsoft.Json.FSharp
-    open VegaWeb.Share.JSON
+//    open VegaWeb.JSON
 
 (* START Visualization*)
 
@@ -23,13 +24,8 @@ module Grammar =
 
     type Padding =
         | Number of int
-        | Object of Orientation
+        | Orientation of Orientation
         | String of AutoPadding
-        member x.ToJson =
-            match x with
-            | Number(v) -> v.ToString()
-            | Object(orient) -> (toJSON orient).ToLower()
-            | String(pad) -> pad.ToString().ToLower()
 
     type Visualization =
         {
@@ -39,8 +35,6 @@ module Grammar =
             ViewPort : (int * int) option
             Padding : Padding option
         }
-        member x.ToJson =
-            (toJSON x).ToLower()
 
     let DefaultVisualization : Visualization = { Name = "data"; Width = 500; Height=500; ViewPort = None; Padding = None}
 
@@ -75,17 +69,17 @@ module Grammar =
     type Transform =
         | NotYet //TODO: Define Data Transform
 
-    type Data =
+    type Data<'a> =
         {
             Name : string
             Format : Format option
-            Values : (System.Object list) option
+            Values : 'a list option
             Source : string option
             Url : string option
             Transforms : (Transform list) option
         }
 
-    let DefaultData : Data = {Name = "table"; Format = None; Values = None; Source = None; Url = None; Transforms = None }
+    let DefaultData<'a> : Data<'a> = {Name = "table"; Format = None; Values = None; Source = None; Url = None; Transforms = None }
 
 (* END Data*)
 
@@ -285,7 +279,7 @@ module Grammar =
 
     type MarkValueRef =
         {
-            Value : System.Object option
+            Value : string option
             Field : string option
             Group : string option
             Scale : string option
@@ -342,67 +336,67 @@ module Grammar =
         | HSL of ColorHSL
         | CIELAB of ColorCIELAB
         | HCL of ColorHCL
-        | Color of string
+        | Value of string
 
     type MarkVisualProperty =
         {
-            X : MarkValueRef
-            X2 : MarkValueRef
-            Width : MarkValueRef
-            Y : MarkValueRef
-            Y2 : MarkValueRef
-            Height : MarkValueRef
-            Opacity : MarkValueRef
+            X : MarkValueRef option
+            X2 : MarkValueRef option
+            Width : MarkValueRef option
+            Y : MarkValueRef option
+            Y2 : MarkValueRef option
+            Height : MarkValueRef option
+            Opacity : MarkValueRef option
             Fill : ColorValueRef option
-            FillOpacity : MarkValueRef
+            FillOpacity : MarkValueRef option
             Stroke : ColorValueRef option
-            StrokeWidth : MarkValueRef
-            StrokeOpacity  : MarkValueRef
-            StrokeDash : MarkValueRef
-            StrokeDashOffset : MarkValueRef
+            StrokeWidth : MarkValueRef option
+            StrokeOpacity  : MarkValueRef option
+            StrokeDash : MarkValueRef option
+            StrokeDashOffset : MarkValueRef option
             //Symbol
-            Size : MarkValueRef
-            Shape : MarkValueRef
+            Size : MarkValueRef option
+            Shape : MarkValueRef option
             //Path
-            Path : MarkValueRef
+            Path : MarkValueRef option
             //Arc
-            InnerRadius : MarkValueRef
-            OuterRadius : MarkValueRef
-            StartAngle : MarkValueRef
-            EndAngle : MarkValueRef
+            InnerRadius : MarkValueRef option
+            OuterRadius : MarkValueRef option
+            StartAngle : MarkValueRef option
+            EndAngle : MarkValueRef option
             //Area - Line
-            InterPolate : MarkValueRef
-            Tension : MarkValueRef
+            InterPolate : MarkValueRef option
+            Tension : MarkValueRef option
             //Image
-            Url : MarkValueRef
-            Align : MarkValueRef
-            Baseline : MarkValueRef
+            Url : MarkValueRef option
+            Align : MarkValueRef option
+            Baseline : MarkValueRef option
             //Text 
-            Text : MarkValueRef
-            Dx : MarkValueRef
-            Dy : MarkValueRef
-            Angle : MarkValueRef
-            Font : MarkValueRef
-            FontSize : MarkValueRef
-            FontWeight : MarkValueRef
-            FontStyle : MarkValueRef
+            Text : MarkValueRef option
+            Dx : MarkValueRef option
+            Dy : MarkValueRef option
+            Angle : MarkValueRef option
+            Font : MarkValueRef option
+            FontSize : MarkValueRef option
+            FontWeight : MarkValueRef option
+            FontStyle : MarkValueRef option
         }
 
     let DefaultMarkVisualProperty : MarkVisualProperty =
         {
-            X = DefaultMarkValueRef; X2 = DefaultMarkValueRef; Width = DefaultMarkValueRef; Y = DefaultMarkValueRef;
-            Y2 = DefaultMarkValueRef; Height = DefaultMarkValueRef; Opacity = DefaultMarkValueRef;
-            Fill = None; FillOpacity = DefaultMarkValueRef; Stroke = None;
-            StrokeWidth = DefaultMarkValueRef; StrokeOpacity = DefaultMarkValueRef;
-            StrokeDash = DefaultMarkValueRef; StrokeDashOffset = DefaultMarkValueRef;
-            Size = DefaultMarkValueRef; Shape = DefaultMarkValueRef; Path = DefaultMarkValueRef;
-            InnerRadius = DefaultMarkValueRef; OuterRadius = DefaultMarkValueRef;
-            StartAngle = DefaultMarkValueRef; EndAngle = DefaultMarkValueRef;
-            InterPolate = DefaultMarkValueRef; Tension = DefaultMarkValueRef;
-            Url = DefaultMarkValueRef; Align = DefaultMarkValueRef; Baseline = DefaultMarkValueRef;
-            Text = DefaultMarkValueRef; Dx = DefaultMarkValueRef; Dy = DefaultMarkValueRef;
-            Angle = DefaultMarkValueRef; Font = DefaultMarkValueRef; FontSize = DefaultMarkValueRef;
-            FontWeight = DefaultMarkValueRef; FontStyle = DefaultMarkValueRef
+            X = None; X2 = None; Width = None; Y = None;
+            Y2 = None; Height = None; Opacity = None;
+            Fill = None; FillOpacity = None; Stroke = None;
+            StrokeWidth = None; StrokeOpacity = None;
+            StrokeDash = None; StrokeDashOffset = None;
+            Size = None; Shape = None; Path = None;
+            InnerRadius = None; OuterRadius = None;
+            StartAngle = None; EndAngle = None;
+            InterPolate = None; Tension = None;
+            Url = None; Align = None; Baseline = None;
+            Text = None; Dx = None; Dy = None;
+            Angle = None; Font = None; FontSize = None;
+            FontWeight = None; FontStyle = None
         }
 
     type MarkPropertySet =
@@ -444,17 +438,17 @@ module Grammar =
 
 (* START Element *)
 
-    type Element = 
+    type Element<'a> = 
         {
             Visualization : Visualization option
-            Data : Data option
+            Data : Data<'a> option
             Scales : (Scale list) option
             Axes : (Axis list) option
             Legend : Legend option
             Marks : (Mark list) option
         }
 
-    let DefaultElement : Element =
+    let DefaultElement<'a> : Element<'a> =
         {
             Visualization = None; Data = None;
             Scales = None; Axes = None;

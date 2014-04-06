@@ -151,6 +151,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Editor\Index.cshtml" />
+    <Content Include="Views\Bar\Index.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Global.asax" />
     <Compile Include="Global.asax.fs">
@@ -159,7 +160,6 @@
     <None Include="packages.config" />
     <Content Include="readme.txt" />
     <Content Include="LICENSE.txt" />
-    <None Include="Views\Bar\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">

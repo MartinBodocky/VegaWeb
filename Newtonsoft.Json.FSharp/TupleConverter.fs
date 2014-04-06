@@ -21,6 +21,7 @@ open System
 /// <summary>
 /// A JSON.NET converter which can serialize/deserialize F# tuple values.
 /// </summary>
+[<AutoOpen>]
 type TupleConverter() =
   inherit JsonConverter()
 

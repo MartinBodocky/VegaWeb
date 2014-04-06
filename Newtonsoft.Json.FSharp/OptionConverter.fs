@@ -21,6 +21,7 @@ open System.Reflection
 //TODO: add caching
 
 /// A JSON.NET converter which can serialize/deserialize F# option types.
+[<AutoOpen>]
 type OptionConverter() =
   inherit JsonConverter()
   

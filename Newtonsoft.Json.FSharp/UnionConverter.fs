@@ -26,6 +26,7 @@ open System.Text.RegularExpressions
 ///       Please use OptionConverter instead.
 /// </para>
 /// </summary>
+[<AutoOpen>]
 type UnionConverter<'u>() =
   inherit JsonConverter()
 
