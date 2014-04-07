@@ -26,9 +26,6 @@ open Newtonsoft.Json.FSharp
 #load @"C:\GitHub\VegaWeb\Newtonsoft.Json.FSharp\OptionConverter.fs"
 open Newtonsoft.Json.FSharp
 
-//let convertersA : Newtonsoft.Json.JsonConverter[]  = [| new Newtonsoft.Json.FSharp.TupleConverter(); new Newtonsoft.Json.FSharp.OptionConverter() |]
-
-
 open Newtonsoft.Json
 #load "JSON.fs"
 open VegaWeb
@@ -37,8 +34,22 @@ open VegaWeb
 #load "Bar.fs"
 open VegaWeb
 
+let converters : JsonConverter[] = [| TupleConverter()
+                                      OptionConverter()
+                                      UnionConverter<Grammar.Padding>()
+                                      UnionConverter<Grammar.AutoPadding>()
+                                      UnionConverter<Grammar.AxisDirection>()
+                                      UnionConverter<Grammar.ColorValueRef>() |]
 //let toJSON v = 
-//    JsonConvert.SerializeObject(v,Formatting.Indented)
+//    JsonConvert.SerializeObject(v,Formatting.Indented, converters)
+
+let settings = 
+        JsonSerializerSettings(
+            NullValueHandling = NullValueHandling.Ignore, 
+            Converters = converters)
+let toJSON v = 
+        JsonConvert.SerializeObject(v,Formatting.Indented, settings)
+
 
 type Item = { X: int; Y:int}
 
@@ -49,27 +60,7 @@ let dataset =
 
 let barElement = Bar.bar dataset ("X", "Y")
 
-
-
-//Newtonsoft.Json.FSharp.TupleConverter
-//
-//let convertersA : Newtonsoft.Json.JsonConverter[]  = [| new Newtonsoft.Json.FSharp.TupleConverter(); new Newtonsoft.Json.FSharp.OptionConverter() |]
-//
-//let convertersB : JsonConverter[]  = [| new Newtonsoft.Json.FSharp.TupleConverter()|]
-
-
-let converters : JsonConverter[] = [| TupleConverter()
-                                      OptionConverter()
-                                      UnionConverter<Grammar.AutoPadding>()
-                                      UnionConverter<Grammar.AxisDirection>()
-                                      UnionConverter<Grammar.ColorValueRef>() |]
-let toJSON v = 
-    JsonConvert.SerializeObject(v,Formatting.Indented, converters)
-let ofJSON (v) : 't = 
-    JsonConvert.DeserializeObject<'t>(v,converters)
-
 barElement |> toJSON
-
 
 
 (*
