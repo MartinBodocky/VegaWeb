@@ -6,7 +6,6 @@ module Grammar =
     open System.Collections.Generic
     open Newtonsoft.Json
     open Newtonsoft.Json.FSharp
-//    open VegaWeb.JSON
 
 (* START Visualization*)
 
@@ -26,17 +25,6 @@ module Grammar =
         | Number of int
         | Orientation of Orientation
         | String of AutoPadding
-
-    type Visualization =
-        {
-            Name : string
-            Width : int
-            Height : int
-            ViewPort : (int * int) option
-            Padding : Padding option
-        }
-
-    let DefaultVisualization : Visualization = { Name = "data"; Width = 500; Height=500; ViewPort = None; Padding = None}
 
 (* END Visualization*)
 
@@ -272,8 +260,13 @@ module Grammar =
         | Image | Text
         | Group
         
+    type DataFrom =
+        {
+            Data : string
+        }
+
     type MarkFrom =
-        | Data of string
+        | Data of DataFrom
         | Transforms of string list
         | NoMark
 
@@ -331,12 +324,17 @@ module Grammar =
             L : MarkValueRef
         }
 
+    type ColorValue =
+        {
+            Value : string
+        }
+
     type ColorValueRef =
         | RGB of ColorRGB
         | HSL of ColorHSL
         | CIELAB of ColorCIELAB
         | HCL of ColorHCL
-        | Value of string
+        | Value of ColorValue
 
     type MarkVisualProperty =
         {
@@ -440,8 +438,12 @@ module Grammar =
 
     type Element<'a> = 
         {
-            Visualization : Visualization option
-            Data : Data<'a> option
+            Name : string
+            Width : int
+            Height : int
+            ViewPort : (int * int) option
+            Padding : Padding option
+            Data : (Data<'a> list) option
             Scales : (Scale list) option
             Axes : (Axis list) option
             Legend : Legend option
@@ -450,7 +452,9 @@ module Grammar =
 
     let DefaultElement<'a> : Element<'a> =
         {
-            Visualization = None; Data = None;
+            Name = "data"; Width = 500; 
+            Height = 500; ViewPort = None; 
+            Padding = None; Data = None;
             Scales = None; Axes = None;
             Legend = None; Marks = None
         }

@@ -41,6 +41,10 @@
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
       <Private>True</Private>
@@ -50,10 +54,22 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library1.fs" />
+    <Compile Include="JSONTests.fs" />
     <None Include="Script.fsx" />
     <None Include="packages.config" />
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Newtonsoft.Json.FSharp\Newtonsoft.Json.FSharp.fsproj">
+      <Name>Newtonsoft.Json.FSharp</Name>
+      <Project>{7e647793-3607-4166-8943-dfae628ce7c4}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\VegaWeb.Share\VegaWeb.Share.fsproj">
+      <Name>VegaWeb.Share</Name>
+      <Project>{be5d4740-9457-4c8c-aa3b-f0172c47d499}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>

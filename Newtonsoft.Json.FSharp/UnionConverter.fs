@@ -100,23 +100,54 @@ type UnionConverter<'u>() =
     match value with
     | null -> nullArg "value" // 'null' unions don't really make any sense!
     | data -> 
-        writer.WriteStartObject()
+        //writer.WriteStartObject()
         // emit "system" metadata, if necessary
-        if serializer.IsTracking then 
-          writer.WriteIndentity(serializer,value)
+        //if serializer.IsTracking then 
+        //  writer.WriteIndentity(serializer,value)
+
+        let properties = props.[value |> getTag]
+        // when is object inside untion
+        let objectContains = properties |> Array.exists (fun p -> p.Name = "Item")
         
+        if objectContains then
+            properties
+            |> Array.filter (fun p -> p.Name = "Item")
+            |> Array.map  (fun p -> p.Name,p.GetValue(value,null))
+            |> Array.iter (fun (n,v) -> 
+                if v <> null && serializer.HasReference(v) 
+                then writer.WriteReference(serializer,v)
+                else serializer.Serialize(writer,v))
+        else
+            //writer.WriteStartObject()
+
+            properties
+            |> Array.map  (fun p -> p.Name,p.GetValue(value,null))
+            |> Array.filter (fun (p,v) -> v.ToString() = "True" )
+            |> Array.iter (fun (n,v) -> 
+                //writer.WritePropertyName(n)
+                let name = n.Substring(2,n.Length-2)
+                serializer.Serialize(writer, name))
+
+//                if v <> null && serializer.HasReference(v) 
+//                then writer.WriteReference(serializer,v)
+//                else serializer.Serialize(writer,v))
+
+            //writer.WriteEndObject()
+
+(*
         props.[value |> getTag]
           // match name (from definition) with value (from instance)
+          |> Array.filter (fun p -> p.Name = "Item") // I'm interested only in value
           |> Array.map  (fun p -> p.Name,p.GetValue(value,null))
           |> Array.iter (fun (n,v) -> 
               // emit field name (from definition)
-              writer.WritePropertyName(n)
+              //writer.WritePropertyName(n)
               // emit value, or reference thereto, if necessary
               if v <> null && serializer.HasReference(v) 
                 then writer.WriteReference(serializer,v)
                 else serializer.Serialize(writer,v))
-        
-        writer.WriteEndObject()
+        *)
+        //writer.WriteEndObject()
 
   override __.ReadJson(reader,_,_,serializer) = 
     

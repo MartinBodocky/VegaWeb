@@ -54,23 +54,15 @@ type OptionConverter() =
 
   override __.WriteJson(writer,value,serializer) =
     match value with
-    | IsNone    ->  writer.WriteNull() 
-                    //TODO: investigate the relevance 
-                    //      of JSON.NET's NullHandling options
-    | IsSome(v) ->  writer.WriteStartObject()
-              
-                    // emit "system" metadata, if necessary
-                    if serializer.IsTracking then 
-                      writer.WriteIndentity(serializer,value)
-              
-                    writer.WritePropertyName(FS_VALUE)
-                    // emit value, or reference thereto, if necessary
+    | IsNone    ->  // I don't want to know about values which are none
+                    writer.WriteNull() 
+                    
+    | IsSome(v) ->  // remove unnecessary start/end parenthesis
+                    // just write value for property
                     if serializer.HasReference(v) 
                       then  writer.WriteReference(serializer,v)
                       else  serializer.Serialize(writer,v)
               
-                    writer.WriteEndObject()
-    
   override __.ReadJson(reader,vType,_,serializer) = 
     let decode,decode',advance,readName = makeHelpers reader serializer
     

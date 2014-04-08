@@ -2,9 +2,6 @@
 // for more guidance on F# programming.
 
 open System
-//open VegaWeb
-//open VegaWeb.Share
-
 #I "../../bin/"
 #I "../../bin/Debug"
 #r "Newtonsoft.Json.dll"
@@ -27,28 +24,13 @@ open Newtonsoft.Json.FSharp
 open Newtonsoft.Json.FSharp
 
 open Newtonsoft.Json
-#load "JSON.fs"
-open VegaWeb
+
 #load "Grammar.fs"
-open VegaWeb
+open VegaWeb.Grammar
 #load "Bar.fs"
-open VegaWeb
-
-let converters : JsonConverter[] = [| TupleConverter()
-                                      OptionConverter()
-                                      UnionConverter<Grammar.Padding>()
-                                      UnionConverter<Grammar.AutoPadding>()
-                                      UnionConverter<Grammar.AxisDirection>()
-                                      UnionConverter<Grammar.ColorValueRef>() |]
-//let toJSON v = 
-//    JsonConvert.SerializeObject(v,Formatting.Indented, converters)
-
-let settings = 
-        JsonSerializerSettings(
-            NullValueHandling = NullValueHandling.Ignore, 
-            Converters = converters)
-let toJSON v = 
-        JsonConvert.SerializeObject(v,Formatting.Indented, settings)
+open VegaWeb.Bar
+#load "JSON.fs"
+open VegaWeb.JSON
 
 
 type Item = { X: int; Y:int}
@@ -58,7 +40,7 @@ let dataset =
         for i=1 to 10 do yield { X = i; Y = i*i}
     ]
 
-let barElement = Bar.bar dataset ("X", "Y")
+let barElement = bar dataset ("X", "Y")
 
 barElement |> toJSON
 
