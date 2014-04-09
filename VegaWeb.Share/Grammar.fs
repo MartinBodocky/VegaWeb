@@ -187,7 +187,7 @@ module Grammar =
             Title : string option
             TitleOffset : float option
             Format : string option
-            Ticks : bigint option
+            Ticks : int option
             Values : (System.Object list) option
             SubDivide : float option
             TickPadding : int option

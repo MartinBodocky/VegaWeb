@@ -2,6 +2,8 @@
 // for more guidance on F# programming.
 
 open System
+open System.Windows.Forms
+
 #I "../../bin/"
 #I "../../bin/Debug"
 #r "Newtonsoft.Json.dll"
@@ -46,7 +48,7 @@ let errorData =
 
 let errorBar = error errorData ("label", "Mean", "LO", "Hi")
 
-errorBar |> toJSON
+errorBar |> toJSON |> Clipboard.SetText
 
 
 type Item = { X: int; Y:int}
@@ -58,7 +60,7 @@ let dataset =
 
 let barElement = bar dataset ("x", "y")
 
-barElement |> toJSON
+barElement |> toJSON |> Clipboard.SetText
 
 
 (*

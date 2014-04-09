@@ -19,7 +19,7 @@ module Error =
                 DefaultScale with
                     Name = "y"
                     Type = Ordinal
-                    Range = Some(Field(Width))
+                    Range = Some(Field(Height))
                     Domain = Some(DataRef(One({Data = "stats"; Field = "index"})))
             }
 
@@ -32,15 +32,15 @@ module Error =
                     Nice = Some(True)
                     Zero = Some(true)
             }
-        let axes = { DefaultAxis with Type = X; Scale = "x"; Ticks=Some(bigint 6) }
+        let axes = { DefaultAxis with Type = X; Scale = "x"; Ticks = Some(6) }
             
         let symbolProperties : MarkPropertySet =
             {
                 DefaultMarkPropertySet with
                     Enter = Some({
                                     DefaultMarkVisualProperty with
-                                        X = Some({ DefaultMarkValueRef with Scale = Some("x"); Value = Some("data." + mean) })
-                                        Y = Some({ DefaultMarkValueRef with Scale = Some("y"); Field=Some("index")})
+                                        X = Some({ DefaultMarkValueRef with Scale = Some("x"); Field = Some("data." + mean) })
+                                        Y = Some({ DefaultMarkValueRef with Scale = Some("y"); Field = Some("index")})
                                         Size = Some({ DefaultMarkValueRef with Value = Some("40") })
                                         Fill = Some(Value({Value = "#000"}))
                     })

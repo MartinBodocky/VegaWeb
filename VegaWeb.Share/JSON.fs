@@ -44,4 +44,4 @@ module JSON =
 
     //public function for execute serialization
     let toJSON v = 
-        JsonConvert.SerializeObject(v,Formatting.Indented, settings)
+        JsonConvert.SerializeObject(v,Formatting.Indented, settings).ToLower()

@@ -3,6 +3,7 @@
 open System
 open NUnit.Framework
 open FsUnit
+
 open Newtonsoft.Json
 open Newtonsoft.Json.FSharp
 open VegaWeb.Grammar

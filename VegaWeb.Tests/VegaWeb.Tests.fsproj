@@ -55,9 +55,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JSONTests.fs" />
-    <None Include="Script.fsx" />
     <None Include="packages.config" />
     <None Include="app.config" />
+    <Compile Include="BarTest.fs" />
+    <Compile Include="ErrorTest.fs" />
+    <None Include="Script.fsx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Newtonsoft.Json.FSharp\Newtonsoft.Json.FSharp.fsproj">
