@@ -3,6 +3,7 @@
 open System
 open Newtonsoft.Json
 open Newtonsoft.Json.Converters
+open Newtonsoft.Json.Serialization
 open Newtonsoft.Json.FSharp
 open VegaWeb.Grammar
 
@@ -37,9 +38,10 @@ module JSON =
     //JSON serializer settings where ignore null values
     let private settings = 
         JsonSerializerSettings(
+            ContractResolver = new CamelCasePropertyNamesContractResolver(),
             NullValueHandling = NullValueHandling.Ignore, 
             Converters = converters)
 
     //public function for execute serialization
     let toJSON v = 
-        JsonConvert.SerializeObject(v,Formatting.Indented, settings).ToLower() 
+        JsonConvert.SerializeObject(v,Formatting.Indented, settings)

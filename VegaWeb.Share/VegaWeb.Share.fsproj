@@ -47,8 +47,10 @@
   <ItemGroup>
     <Compile Include="Grammar.fs" />
     <None Include="packages.config" />
-    <Compile Include="Bar.fs" />
     <Compile Include="JSON.fs" />
+    <Compile Include="Bar.fs" />
+    <Compile Include="Scatter.fs" />
+    <Compile Include="Error.fs" />
     <None Include="Script.fsx" />
   </ItemGroup>
   <ItemGroup>

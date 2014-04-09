@@ -125,7 +125,7 @@ type UnionConverter<'u>() =
             |> Array.filter (fun (p,v) -> v.ToString() = "True" )
             |> Array.iter (fun (n,v) -> 
                 //writer.WritePropertyName(n)
-                let name = n.Substring(2,n.Length-2)
+                let name = n.Substring(2,n.Length-2).ToLower()
                 serializer.Serialize(writer, name))
 
 //                if v <> null && serializer.HasReference(v) 

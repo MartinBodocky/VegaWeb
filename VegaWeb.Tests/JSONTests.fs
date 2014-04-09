@@ -25,7 +25,7 @@ type ``Testing my json converter``() =
 
     [<Test>]
     member test.``Convert simple axis data to JSON string``() =
-        let axesX = { DefaultAxis with Type = X; Scale = "X" }
+        let axesX = { DefaultAxis with Type = X; Scale = "x" }
         let Json = axesX |> toJSON
         Json |> should equal <| "{\r\n  \"type\": \"x\",\r\n  \"scale\": \"x\"\r\n}"
 
@@ -34,10 +34,10 @@ type ``Testing my json converter``() =
         let scaleX = 
             { 
                 DefaultScale with
-                    Name = "X"
+                    Name = "x"
                     Type = Ordinal
                     Range = Some(Field(Width))
-                    Domain = Some(DataRef(One({Data = "table"; Field = "data." + "X"})))
+                    Domain = Some(DataRef(One({Data = "table"; Field = "data." + "x"})))
             }
         let Json = scaleX |> toJSON
         Json |> should equal <| "{\r\n  \"name\": \"x\",\r\n  \"type\": \"ordinal\",\r\n  \"domain\": {\r\n    \"data\": \"table\",\r\n    \"field\": \"data.x\"\r\n  },\r\n  \"range\": \"width\"\r\n}"
@@ -47,9 +47,9 @@ type ``Testing my json converter``() =
         let scaleY =
             {
                 DefaultScale with
-                    Name = "Y"
+                    Name = "y"
                     Range = Some(Field(Height))
-                    Domain = Some(DataRef(One({Data = "table"; Field = "data." + "Y"})))
+                    Domain = Some(DataRef(One({Data = "table"; Field = "data." + "y"})))
                     Nice = Some(True)
             }
         let Json = scaleY |> toJSON
