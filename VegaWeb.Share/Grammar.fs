@@ -11,9 +11,13 @@ module Grammar =
 
     type Orientation =
         { 
+            [<JsonProperty("top")>]
             Top : int
+            [<JsonProperty("left")>]
             Left : int
+            [<JsonProperty("right")>]
             Right : int
+            [<JsonProperty("bottom")>]
             Bottom : int
         }                 
 
@@ -59,11 +63,17 @@ module Grammar =
 
     type Data<'a> =
         {
+            [<JsonProperty("name")>]
             Name : string
+            [<JsonProperty("format")>]
             Format : Format option
+            [<JsonProperty("values")>]
             Values : 'a list option
+            [<JsonProperty("source")>]
             Source : string option
+            [<JsonProperty("url")>]
             Url : string option
+            [<JsonProperty("transforms")>]
             Transforms : (Transform list) option
         }
 
@@ -81,9 +91,25 @@ module Grammar =
         | Quantize
         | Threshold
 
-    type DomainOne = { Data : string; Field: string}
-    type DomainOneMore = {Data : string; Fields : string list}
-    type DomainMulti = {Fields : DomainOne list}
+    type DomainOne = 
+        {
+            [<JsonProperty("data")>] 
+            Data : string
+            [<JsonProperty("field")>]
+            Field: string
+        }
+    type DomainOneMore = 
+        {
+            [<JsonProperty("data")>]
+            Data : string
+            [<JsonProperty("fields")>]
+            Fields : string list
+        }
+    type DomainMulti = 
+        {   
+            [<JsonProperty("fields")>]
+            Fields : DomainOne list
+        }
 
     type DataRef =
         | One of DomainOne
@@ -116,25 +142,42 @@ module Grammar =
 
     type Scale =
         {
+            [<JsonProperty("name")>]
             Name : string
+            [<JsonProperty("type")>]
             Type : ScaleType
+            [<JsonProperty("domain")>]
             Domain : Domain option
+            [<JsonProperty("domainmix")>]
             DomainMin : DomainValue option
+            [<JsonProperty("domainmax")>]
             DomainMax : DomainValue option
+            [<JsonProperty("range")>]
             Range : Range option
+            [<JsonProperty("rangemix")>]
             RangeMin : float option
+            [<JsonProperty("rangemax")>]
             RangeMax : float option
+            [<JsonProperty("reverse")>]
             Reverse : bool option
+            [<JsonProperty("round")>]
             Round : bool option
             //Ordinal Scale
+            [<JsonProperty("points")>]
             Points : bool option
+            [<JsonProperty("padding")>]
             Padding: float option
+            [<JsonProperty("sort")>]
             Sort : bool option
             // Time Scale
+            [<JsonProperty("clamp")>]
             Clamp : bool option
+            [<JsonProperty("nice")>]
             Nice : NiceScale option
             // Quantitative scale
+            [<JsonProperty("exponent")>]
             Exponent : float option
+            [<JsonProperty("zero")>]
             Zero : bool option
         }
 
@@ -172,31 +215,53 @@ module Grammar =
 
     type AxisProperty =
         {
+            [<JsonProperty("ticks")>]
             Ticks : (string * string) list
+            [<JsonProperty("majorticks")>]
             MajorTicks : (string * string) list
+            [<JsonProperty("labels")>]
             Labels : (string * string) list
+            [<JsonProperty("title")>]
             Title : (string * string) list
+            [<JsonProperty("axis")>]
             Axis : (string * string) list
         }
 
     type Axis =
         {
+            [<JsonProperty("type")>]
             Type : AxisDirection
+            [<JsonProperty("scale")>]
             Scale : string
+            [<JsonProperty("orient")>]
             Orient : AxisOrientation option
+            [<JsonProperty("title")>]
             Title : string option
+            [<JsonProperty("titleoffset")>]
             TitleOffset : float option
+            [<JsonProperty("format")>]
             Format : string option
+            [<JsonProperty("ticks")>]
             Ticks : int option
+            [<JsonProperty("values")>]
             Values : (System.Object list) option
+            [<JsonProperty("subdivide")>]
             SubDivide : float option
+            [<JsonProperty("tickpadding")>]
             TickPadding : int option
+            [<JsonProperty("ticksize")>]
             TickSize : float option
+            [<JsonProperty("ticksizemajor")>]
             TickSizeMajor : float option
+            [<JsonProperty("ticksizeminor")>]
             TickSizeMinor : float option
+            [<JsonProperty("ticksizeend")>]
             TickSizeEnd : float option
+            [<JsonProperty("layer")>]
             Layer : AxisLayer option
+            [<JsonProperty("grid")>]
             Grid : bool option
+            [<JsonProperty("properties")>]
             Properties : AxisProperty option
         }
 
@@ -221,23 +286,37 @@ module Grammar =
 
     type LegendProperty = 
         {
+            [<JsonProperty("title")>]
             Title : (string * string) list 
+            [<JsonProperty("labels")>]
             Labels : (string * string) list
+            [<JsonProperty("symbols")>]
             Symbols : (string * string) list
+            [<JsonProperty("gradient")>]
             Gradient : (string * string) list
+            [<JsonProperty("legend")>]
             Legend : (string * string) list
         }
 
     type Legend =
         {
+            [<JsonProperty("size")>]
             Size : string option
+            [<JsonProperty("shape")>]
             Shape : string option
+            [<JsonProperty("fill")>]
             Fill : string option
+            [<JsonProperty("stroke")>]
             Stroke : string option
+            [<JsonProperty("orient")>]
             Orient : LegendOrient option
+            [<JsonProperty("title")>]
             Title : string option
+            [<JsonProperty("format")>]
             Format : string option
+            [<JsonProperty("values")>]
             Values : (System.Object list) option
+            [<JsonProperty("properties")>]
             Properties : LegendProperty option
         }
 
@@ -262,6 +341,7 @@ module Grammar =
         
     type DataFrom =
         {
+            [<JsonProperty("data")>]
             Data : string
         }
 
@@ -272,12 +352,19 @@ module Grammar =
 
     type MarkValueRef =
         {
+            [<JsonProperty("value")>]
             Value : string option
+            [<JsonProperty("field")>]
             Field : string option
+            [<JsonProperty("group")>]
             Group : string option
+            [<JsonProperty("scale")>]
             Scale : string option
+            [<JsonProperty("mult")>]
             Mult : float option
+            [<JsonProperty("offset")>]
             Offset : float option
+            [<JsonProperty("band")>]
             Band : bool option
         }
 
@@ -298,34 +385,47 @@ module Grammar =
 
     type ColorRGB =
         {
+            [<JsonProperty("r")>]
             R : MarkValueRef
+            [<JsonProperty("g")>]
             G : MarkValueRef
+            [<JsonProperty("b")>]
             B : MarkValueRef
         }
 
     type ColorHSL =
         {
+            [<JsonProperty("h")>]
             H : MarkValueRef
+            [<JsonProperty("s")>]
             S : MarkValueRef
+            [<JsonProperty("l")>]
             L : MarkValueRef 
         }
 
     type ColorCIELAB =
         {
+            [<JsonProperty("l")>]
             L : MarkValueRef
+            [<JsonProperty("a")>]
             A : MarkValueRef
+            [<JsonProperty("b")>]
             B : MarkValueRef
         }
 
     type ColorHCL =
         {
+            [<JsonProperty("h")>]
             H : MarkValueRef
+            [<JsonProperty("c")>]
             C : MarkValueRef
+            [<JsonProperty("l")>]
             L : MarkValueRef
         }
 
     type ColorValue =
         {
+            [<JsonProperty("value")>]
             Value : string
         }
 
@@ -338,45 +438,79 @@ module Grammar =
 
     type MarkVisualProperty =
         {
+            [<JsonProperty("x")>]
             X : MarkValueRef option
+            [<JsonProperty("x2")>]
             X2 : MarkValueRef option
+            [<JsonProperty("width")>]
             Width : MarkValueRef option
+            [<JsonProperty("y")>]
             Y : MarkValueRef option
+            [<JsonProperty("y2")>]
             Y2 : MarkValueRef option
+            [<JsonProperty("height")>]
             Height : MarkValueRef option
+            [<JsonProperty("opacity")>]
             Opacity : MarkValueRef option
+            [<JsonProperty("fill")>]
             Fill : ColorValueRef option
+            [<JsonProperty("fillopacity")>]
             FillOpacity : MarkValueRef option
+            [<JsonProperty("stroke")>]
             Stroke : ColorValueRef option
+            [<JsonProperty("strokewidth")>]
             StrokeWidth : MarkValueRef option
+            [<JsonProperty("strokeopacity")>]
             StrokeOpacity  : MarkValueRef option
+            [<JsonProperty("strokedash")>]
             StrokeDash : MarkValueRef option
+            [<JsonProperty("strokedashoffset")>]
             StrokeDashOffset : MarkValueRef option
             //Symbol
+            [<JsonProperty("size")>]
             Size : MarkValueRef option
+            [<JsonProperty("shape")>]
             Shape : MarkValueRef option
             //Path
+            [<JsonProperty("path")>]
             Path : MarkValueRef option
             //Arc
+            [<JsonProperty("innerradius")>]
             InnerRadius : MarkValueRef option
+            [<JsonProperty("outerradius")>]
             OuterRadius : MarkValueRef option
+            [<JsonProperty("startangle")>]
             StartAngle : MarkValueRef option
+            [<JsonProperty("endangle")>]
             EndAngle : MarkValueRef option
             //Area - Line
+            [<JsonProperty("interpolate")>]
             InterPolate : MarkValueRef option
+            [<JsonProperty("tension")>]
             Tension : MarkValueRef option
             //Image
+            [<JsonProperty("url")>]
             Url : MarkValueRef option
+            [<JsonProperty("align")>]
             Align : MarkValueRef option
+            [<JsonProperty("baseline")>]
             Baseline : MarkValueRef option
             //Text 
+            [<JsonProperty("text")>]
             Text : MarkValueRef option
+            [<JsonProperty("dx")>]
             Dx : MarkValueRef option
+            [<JsonProperty("dy")>]
             Dy : MarkValueRef option
+            [<JsonProperty("angle")>]
             Angle : MarkValueRef option
+            [<JsonProperty("font")>]
             Font : MarkValueRef option
+            [<JsonProperty("fontsize")>]
             FontSize : MarkValueRef option
+            [<JsonProperty("fontweight")>]
             FontWeight : MarkValueRef option
+            [<JsonProperty("fontstyle")>]
             FontStyle : MarkValueRef option
         }
 
@@ -399,9 +533,13 @@ module Grammar =
 
     type MarkPropertySet =
         {
+            [<JsonProperty("update")>]
             Update : MarkVisualProperty option
+            [<JsonProperty("exit")>]
             Exit : MarkVisualProperty option
+            [<JsonProperty("enter")>]
             Enter : MarkVisualProperty option
+            [<JsonProperty("hover")>]
             Hover : MarkVisualProperty option
         }
 
@@ -413,14 +551,23 @@ module Grammar =
     
     type Mark =
         {
+            [<JsonProperty("type")>]
             Type : MarkType
+            [<JsonProperty("name")>]
             Name : string option
+            [<JsonProperty("description")>]
             Description : string option
+            [<JsonProperty("from")>]
             From : MarkFrom
+            [<JsonProperty("properties")>]
             Properties : MarkPropertySet
+            [<JsonProperty("key")>]
             Key : string option
+            [<JsonProperty("delay")>]
             Delay : MarkValueRef option
+            [<JsonProperty("ease")>]
             Ease : EaseFunction option
+            [<JsonProperty("marks")>]
             Marks : (Mark list) option
         }
 
@@ -438,15 +585,25 @@ module Grammar =
 
     type Element<'a> = 
         {
+            [<JsonProperty("name")>]
             Name : string
+            [<JsonProperty("width")>]
             Width : int
+            [<JsonProperty("height")>]
             Height : int
+            [<JsonProperty("viewport")>]
             ViewPort : (int * int) option
+            [<JsonProperty("padding")>]
             Padding : Padding option
+            [<JsonProperty("data")>]
             Data : (Data<'a> list) option
+            [<JsonProperty("scales")>]
             Scales : (Scale list) option
+            [<JsonProperty("axes")>]
             Axes : (Axis list) option
+            [<JsonProperty("legend")>]
             Legend : Legend option
+            [<JsonProperty("marks")>]
             Marks : (Mark list) option
         }
 

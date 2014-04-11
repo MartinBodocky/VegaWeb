@@ -6,8 +6,8 @@ module Bar =
 
     let bar (dataset: 'a list) (fx:string , fy:string) =
 
-        let x = fx.ToLower()
-        let y = fy.ToLower()
+        let x = fx
+        let y = fy
 
         let innerPadding  = Orientation({ Top = 10; Left = 30; Bottom = 30; Right = 10})
         let dataElement = { DefaultData with Values = Some(dataset) }

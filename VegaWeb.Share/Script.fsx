@@ -51,6 +51,7 @@ let errorBar = error errorData ("label", "Mean", "LO", "Hi")
 errorBar |> toJSON |> Clipboard.SetText
 
 
+
 type Item = { X: int; Y:int}
 
 let dataset =
@@ -58,7 +59,7 @@ let dataset =
         for i=1 to 10 do yield { X = i; Y = i*i}
     ]
 
-let barElement = bar dataset ("x", "y")
+let barElement = bar dataset ("X", "Y")
 
 barElement |> toJSON |> Clipboard.SetText
 

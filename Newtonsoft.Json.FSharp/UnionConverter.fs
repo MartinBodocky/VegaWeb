@@ -119,7 +119,7 @@ type UnionConverter<'u>() =
             |> Array.map  (fun p -> p.Name,p.GetValue(value,null))
             |> Array.filter (fun (p,v) -> v.ToString() = "True" )
             |> Array.iter (fun (n,v) -> 
-                let name = n.Substring(2,n.Length-2)
+                let name = n.Substring(2,n.Length-2).ToLower()
                 serializer.Serialize(writer, name))
 
   override __.ReadJson(reader,_,_,serializer) = 
