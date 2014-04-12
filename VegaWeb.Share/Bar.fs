@@ -4,17 +4,14 @@ module Bar =
 
     open VegaWeb.Grammar
 
-    let bar (dataset: 'a list) (fx:string , fy:string) =
-
-        let x = fx
-        let y = fy
+    let bar (dataset: 'a list) (x:string , y:string) =
 
         let innerPadding  = Orientation({ Top = 10; Left = 30; Bottom = 30; Right = 10})
         let dataElement = { DefaultData with Values = Some(dataset) }
         let scaleX = 
             { 
                 DefaultScale with
-                    Name = fx
+                    Name = "x"
                     Type = Ordinal
                     Range = Some(Field(Width))
                     Domain = Some(DataRef(One({Data = "table"; Field = "data." + x})))
@@ -23,13 +20,13 @@ module Bar =
         let scaleY =
             {
                 DefaultScale with
-                    Name = fy
+                    Name = "y"
                     Range = Some(Field(Height))
                     Domain = Some(DataRef(One({Data = "table"; Field = "data." + y})))
                     Nice = Some(True)
             }
-        let axesX = { DefaultAxis with Type = X; Scale = fx }
-        let axesY = { DefaultAxis with Type = Y; Scale = fy }
+        let axesX = { DefaultAxis with Type = X; Scale = "x" }
+        let axesY = { DefaultAxis with Type = Y; Scale = "y" }
 
         let markUpdate = Some({
                                 DefaultMarkVisualProperty with
@@ -44,20 +41,20 @@ module Bar =
                                 DefaultMarkVisualProperty with
                                     X = Some({
                                                 DefaultMarkValueRef with
-                                                    Scale = Some(fx); Field = Some("data." + x)
+                                                    Scale = Some("x"); Field = Some("data." + x)
                                         })
                                     Width = Some({
                                                     DefaultMarkValueRef with
-                                                        Scale = Some(fx); Band = Some(true)
+                                                        Scale = Some("x"); Band = Some(true)
                                                         Offset = Some(-1.)
                                             })
                                     Y = Some({
                                                 DefaultMarkValueRef with
-                                                    Scale = Some(fy); Field = Some("data." + y)
+                                                    Scale = Some("y"); Field = Some("data." + y)
                                         })
                                     Y2 = Some({
                                                 DefaultMarkValueRef with
-                                                    Scale = Some(fy); Value = Some( 0 |> string)
+                                                    Scale = Some("y"); Value = Some( 0 |> string)
                                             })
                             })
 

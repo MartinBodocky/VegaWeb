@@ -2,12 +2,17 @@
 // for more guidance on F# programming.
 
 open System
+open System.IO
+open System.Data
 open System.Windows.Forms
 
 #I "../../bin/"
 #I "../../bin/Debug"
 #r "Newtonsoft.Json.dll"
+#r @"C:\GitHub\VegaWeb\packages\FSharp.Data.2.0.5\lib\net40\FSharp.Data.dll"
 open Newtonsoft.Json
+open FSharp.Data
+open FSharp.Data.CsvExtensions
 
 //#r "Newtonsoft.Json.FSharp.dll"
 #r @"C:\GitHub\VegaWeb\Newtonsoft.Json.FSharp\bin\Debug\Newtonsoft.Json.FSharp.dll"
@@ -35,7 +40,36 @@ open VegaWeb.Bar
 open VegaWeb.JSON
 #load "Error.fs"
 open VegaWeb.Error
+#load "Scatter.fs"
+open VegaWeb.Scatter
 
+
+let datapath = __SOURCE_DIRECTORY__ + @"\iris.data"
+
+type Observation = { 
+    SepalLength: float;
+    XVar: float;
+    YVar: float;
+    PetalWidth: float;
+    Type: string; }
+
+let data =
+    File.ReadAllLines(datapath)
+    |> fun lines -> lines.[1..]
+    |> Array.map (fun line -> line.Split(','))
+    |> Array.map (fun line -> 
+        {   SepalLength = line.[0] |> float;
+            XVar = line.[1] |> float;
+            YVar = line.[2] |> float;
+            PetalWidth = line.[3] |> float;
+            Type = line.[4]; })
+
+let scatter = scatter (data |> Seq.toList) ("XVar", "YVar", "Type")
+
+scatter |> toJSON |> Clipboard.SetText
+
+
+(*
 type Error = { Label : string; Mean: int; Lo : float; Hi : float}
 let errorData =
     [
@@ -46,7 +80,7 @@ let errorData =
         { Label = "Category E"; Mean = 5; Lo = 4.1; Hi = 5.9 }
     ]
 
-let errorBar = error errorData ("label", "Mean", "LO", "Hi")
+let errorBar = error errorData ("Label", "Mean", "Lo", "Hi")
 
 errorBar |> toJSON |> Clipboard.SetText
 
@@ -62,24 +96,6 @@ let dataset =
 let barElement = bar dataset ("X", "Y")
 
 barElement |> toJSON |> Clipboard.SetText
-
-
-(*
-
-rewrite classes in this style:
-
-type Record(id : int, name : string, ?flag : bool) = 
-  member x.ID = id
-  member x.Name = name
-  member x.Flag = flag
-
-  ?flag -> optional
-
-  let visual : Visualization = 
-    { 
-        VegaWeb.Grammar.DefaultVisualization with 
-            Name = "Test"; Width=400; Height= 600; Padding = Some(Padding.Number(12))
-    }
 
 *)
 

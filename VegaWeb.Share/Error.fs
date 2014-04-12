@@ -4,12 +4,7 @@ module Error =
 
     open VegaWeb.Grammar
 
-    let error (dataset: 'a list) (lbl:string , m:string, l:string, h:string) =
-
-        let label = lbl.ToLower()
-        let mean = m.ToLower()
-        let lo = l.ToLower()
-        let hi = h.ToLower()
+    let error (dataset: 'a list) (label:string , mean:string, lo:string, hi:string) =
 
         let innerPadding  = Orientation({ Top = 10; Left = 30; Bottom = 30; Right = 10})
         let dataElement = { DefaultData with Name = "stats"; Values = Some(dataset) }
@@ -27,7 +22,7 @@ module Error =
             {
                 DefaultScale with
                     Name = "x"
-                    Range = Some(RangeArray([100. ; 400.]))
+                    Range = Some(RangeArray(["100" ; "400"]))
                     Domain = Some(DataRef(One({Data = "stats"; Field = "data." + hi})))
                     Nice = Some(True)
                     Zero = Some(true)

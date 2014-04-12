@@ -160,6 +160,7 @@
     <None Include="packages.config" />
     <Content Include="readme.txt" />
     <Content Include="LICENSE.txt" />
+    <None Include="Scripts\data\iris.json" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">

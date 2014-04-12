@@ -33,6 +33,10 @@
     <DocumentationFile>bin\Release\VegaWeb.Share.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FSharp.Data">
+      <HintPath>..\packages\FSharp.Data.2.0.5\lib\net40\FSharp.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Private>True</Private>
@@ -43,6 +47,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Grammar.fs" />
@@ -52,6 +57,8 @@
     <Compile Include="Scatter.fs" />
     <Compile Include="Error.fs" />
     <None Include="Script.fsx" />
+    <None Include="app.config" />
+    <None Include="iris.data" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Newtonsoft.Json.FSharp\Newtonsoft.Json.FSharp.fsproj">

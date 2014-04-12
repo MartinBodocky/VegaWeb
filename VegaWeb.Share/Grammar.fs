@@ -133,7 +133,7 @@ module Grammar =
 
     type Range =
         | Field of RangeOption
-        | RangeArray of float list
+        | RangeArray of string list
 
     type NiceScale =
         | Second | Minute | Hour
@@ -259,6 +259,8 @@ module Grammar =
             TickSizeEnd : float option
             [<JsonProperty("layer")>]
             Layer : AxisLayer option
+            [<JsonProperty("offset")>]
+            OffSet : string option
             [<JsonProperty("grid")>]
             Grid : bool option
             [<JsonProperty("properties")>]
@@ -273,7 +275,7 @@ module Grammar =
             SubDivide = None; TickPadding = None; TickSize = None;
             TickSizeMajor = None; TickSizeMinor = None;
             TickSizeEnd = None; Layer = None; Grid = None;
-            Properties = None
+            Properties = None; OffSet = None
         }
 
 (* END Axis*)
@@ -284,18 +286,44 @@ module Grammar =
         | Right
         | Left
 
+    type LegengPropertyValue =
+        {
+            [<JsonProperty("value")>]
+            Value : string
+        }
+
+    type LegendPropertyValue =
+        {
+            [<JsonProperty("fillOpacity")>]
+            FillOpacity : LegengPropertyValue option
+            [<JsonProperty("stroke")>]
+            Stroke : LegengPropertyValue option
+        }
+
+    let DefaultLegenfPropertyValue : LegendPropertyValue =
+        {
+            FillOpacity = None; Stroke = None
+        }
+
     type LegendProperty = 
         {
             [<JsonProperty("title")>]
-            Title : (string * string) list 
+            Title : LegendPropertyValue option
             [<JsonProperty("labels")>]
-            Labels : (string * string) list
+            Labels : LegendPropertyValue option
             [<JsonProperty("symbols")>]
-            Symbols : (string * string) list
+            Symbols : LegendPropertyValue option
             [<JsonProperty("gradient")>]
-            Gradient : (string * string) list
+            Gradient : LegendPropertyValue option
             [<JsonProperty("legend")>]
-            Legend : (string * string) list
+            Legend : LegendPropertyValue option
+        }
+
+    let DefaultLegendProperty : LegendProperty =
+        {
+            Title = None; Labels = None;
+            Symbols = None; Gradient = None;
+            Legend = None
         }
 
     type Legend =
@@ -316,6 +344,8 @@ module Grammar =
             Format : string option
             [<JsonProperty("values")>]
             Values : (System.Object list) option
+            [<JsonProperty("offset")>]
+            Offset : float option
             [<JsonProperty("properties")>]
             Properties : LegendProperty option
         }
@@ -325,7 +355,7 @@ module Grammar =
             Size = None; Shape = None; Fill = None;
             Stroke = None; Orient = None; Title = None;
             Format = None; Values = None;
-            Properties = None
+            Properties = None; Offset = None
         }
 
 (* END Legend*)
@@ -435,6 +465,7 @@ module Grammar =
         | CIELAB of ColorCIELAB
         | HCL of ColorHCL
         | Value of ColorValue
+        | VisualValue of MarkValueRef
 
     type MarkVisualProperty =
         {
@@ -454,7 +485,7 @@ module Grammar =
             Opacity : MarkValueRef option
             [<JsonProperty("fill")>]
             Fill : ColorValueRef option
-            [<JsonProperty("fillopacity")>]
+            [<JsonProperty("fillOpacity")>]
             FillOpacity : MarkValueRef option
             [<JsonProperty("stroke")>]
             Stroke : ColorValueRef option
@@ -601,8 +632,8 @@ module Grammar =
             Scales : (Scale list) option
             [<JsonProperty("axes")>]
             Axes : (Axis list) option
-            [<JsonProperty("legend")>]
-            Legend : Legend option
+            [<JsonProperty("legends")>]
+            Legends : (Legend list) option
             [<JsonProperty("marks")>]
             Marks : (Mark list) option
         }
@@ -613,7 +644,7 @@ module Grammar =
             Height = 500; ViewPort = None; 
             Padding = None; Data = None;
             Scales = None; Axes = None;
-            Legend = None; Marks = None
+            Legends = None; Marks = None
         }
 
 (* END Element *)
