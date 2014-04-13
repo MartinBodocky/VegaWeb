@@ -16,7 +16,6 @@ module JSON =
                                                   UnionConverter<Format>()
                                                   UnionConverter<Value>()
                                                   UnionConverter<Values<'a>>()
-                                                  UnionConverter<TransfromTypes>()
                                                   UnionConverter<Transform>()
                                                   UnionConverter<ScaleType>()
                                                   UnionConverter<DataRef>()

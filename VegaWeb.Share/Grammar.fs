@@ -49,17 +49,310 @@ module Grammar =
     type Values<'a> =
         | Data of List<'a>
 
-    type TransfromTypes =
-        | Array | Copy | Cross | Facet
-        | Filter | Flatten | Fold
-        | Formula | Slice | Sort
-        | Stats | Truncate | Unique
-        | Window | Zip | Force
-        | Geo | GeoPath | Link | Pie
-        | Stack | TreeMap | WordCloud
+    type ArrayTransform =
+        {
+            [<JsonProperty("type")>]
+            Type : string 
+            [<JsonProperty("fields")>]
+            Fields : (string list) option
+        }
+
+    let DefaultArrayTransform = { Type = "array"; Fields = None }
+
+    type CopyTransform =
+        {
+            [<JsonProperty("type")>]
+            Type : string
+            [<JsonProperty("from")>]
+            From : string option
+            [<JsonProperty("fields")>]
+            Fields : (string list) option
+            [<JsonProperty("as")>]
+            As : (string list) option
+        }
+
+    let DefaultCopyTransform = { Type = "copy"; Fields = None; From = None; As = None}
+
+    type CrossTransform =
+        {
+            [<JsonProperty("type")>]
+            Type : string
+            [<JsonProperty("with")>]
+            With : string option
+            [<JsonProperty("diagonal")>]
+            Diagonal : bool option
+        }
+    let DefaultCrossTransform = { Type = "cross"; With = None; Diagonal = None}
+
+    type FacetTransform =
+        {
+            [<JsonProperty("type")>]
+            Type : string
+            [<JsonProperty("keys")>]
+            Keys : (string list) option
+            [<JsonProperty("sort")>]
+            Sort : (string list) option
+        }
+    let DefaultFacetTransform = { Type = "facet"; Keys = None; Sort = None}
+
+    type FilterTransform =
+        {
+            [<JsonProperty("type")>]
+            Type : string
+            [<JsonProperty("test")>]
+            Test : string option
+        }
+    let DefaultFilterTransform = { Type = "filter"; Test = None}
+
+    type FlattenTransform =
+        {
+            [<JsonProperty("type")>]
+            Type : string
+        }
+    let DefaultFlattenTransform = { Type = "flatten"}
+
+    type FoldTransform = 
+        {
+            [<JsonProperty("type")>]
+            Type : string
+            [<JsonProperty("fields")>]
+            Fields : (string list) option
+        }
+    let DefaultFoldTransform = { Type = "fold"; Fields = None}
+
+    type FormulaTransform =
+        {
+            [<JsonProperty("type")>]
+            Type : string
+            [<JsonProperty("field")>]
+            Field : string option
+            [<JsonProperty("expr")>]
+            Expr : string option
+        }
+    let DefaultFormulaTransform = { Type = "formula"; Field = None; Expr = None}
+    
+    type SliceTransform =
+        {
+            [<JsonProperty("type")>]
+            Type : string
+            [<JsonProperty("by")>]
+            By : (int list) option
+            [<JsonProperty("field")>]
+            Field : string option
+        }
+    let DefaultSliceTransform = { Type = "slice"; By = None; Field = None}
+
+    type SortTransform  =
+        {
+            [<JsonProperty("type")>]
+            Type : string
+            [<JsonProperty("by")>]
+            By : (string list) option
+        }
+    let DefaultSortTransform = { Type = "sort"; By = None}
+
+    type StatsTransform =
+        {
+            [<JsonProperty("type")>]
+            Type : string
+            [<JsonProperty("value")>]
+            Value : string option
+            [<JsonProperty("median")>]
+            Median : bool option
+            [<JsonProperty("assign")>]
+            Assign : bool option
+        }
+    let DefaultStatsTransform = { Type = "stats"; Value = None; Median = None; Assign = None}
+
+    type TruncateTransform =
+        {
+            [<JsonProperty("type")>]
+            Type : string
+            [<JsonProperty("value")>]
+            Value : string option
+            [<JsonProperty("output")>]
+            Output : string option
+            [<JsonProperty("limit")>]
+            Limit : int option
+            [<JsonProperty("position")>]
+            Position : string option
+            [<JsonProperty("ellipsis")>]
+            Ellipsis : string option
+            [<JsonProperty("wordbreak")>]
+            Wordbreak : bool option
+        }
+    let DefaultTruncateTransform = 
+        {
+            Type = "truncate"; Value = None; Output = None;
+            Limit = None; Position = None; Ellipsis = None; Wordbreak = None
+        }
+
+    type UniqueTransform =
+        {
+            [<JsonProperty("type")>]
+            Type : string
+            [<JsonProperty("field")>]
+            Field : string option
+            [<JsonProperty("as")>]
+            As : string option
+        }
+    let DefaultUniqueTransform = { Type = "unique"; Field = None; As = None}
+
+    type WindowTransform =
+        {
+            [<JsonProperty("type")>]
+            Type : string
+            [<JsonProperty("size")>]
+            Size : int option
+            [<JsonProperty("step")>]
+            Step : int option
+        }
+    let DefaultWindowTransform = { Type = "window"; Size = None; Step = None}
+
+    type ZipTransform =
+        {
+            [<JsonProperty("type")>]
+            Type : string
+            [<JsonProperty("with")>]
+            With : string option
+            [<JsonProperty("as")>]
+            As : string option
+            [<JsonProperty("key")>]
+            Key : string option
+            [<JsonProperty("withKey")>]
+            withKey : string option
+            [<JsonProperty("default")>]
+            Default : string option
+        }
+    let DefaultZipTransform = { Type = "zip"; With = None; As = None; Key = None; withKey = None; Default = None }
+
+    type ForceTransform =
+        {
+            ``type`` : string
+            ``links`` : string option
+            ``size`` : (int list) option
+            ``iterations`` : int option
+            ``charge`` : string option
+            ``linkDistance`` : string option
+            ``linkStrength`` : string option
+            ``friction`` : int option
+            ``theta`` : float option
+            ``gravity`` : int option
+            ``aplha`` : float option
+        }
+    let DefaultForceTransform : ForceTransform = { ``type`` = "force"; links = None; }
+
 
     type Transform =
-        | NotYet //TODO: Define Data Transform
+        | Array of ArrayTransform
+        | Copy of CopyTransform
+        | Cross of CrossTransform
+        | Facet of FacetTransform
+        | Filter of FilterTransform
+        | Flatten of FlattenTransform
+        | Fold of FoldTransform
+        | Formula of FormulaTransform
+        | Slice of SliceTransform
+        | Sort of SortTransform
+        | Stats of StatsTransform
+        | Truncate of TruncateTransform
+        | Unique of UniqueTransform
+        | Window of WindowTransform
+        | Zip of ZipTransform
+        | Force
+        | Geo 
+        | GeoPath 
+        | Link 
+        | Pie
+        | Stack 
+        | TreeMap 
+        | WordCloud
+
+
+
+    type TransformNo =
+        {
+            Type : string 
+            //array
+            Fields : (string list) option
+            //copy
+            From : string option
+            As : (string list) option
+            //cross
+            With : string option
+            Diagonal : bool option
+            //facet
+            Keys : (string list) option
+            Sort : (string list) option
+            //filter
+            Test : string option
+            //formula
+            Field : string option
+            Expr : string option
+            //slice
+            By : (float list) option
+            //stats
+            Value : string option
+            Median : bool option
+            Assign : bool option
+            //Truncate
+            Output : string option
+            Limit : int option
+            Position : string option
+            Ellipsis : string option
+            Wordbreak : bool option
+            //window 
+            Size : float option
+            Step : float option
+            //zip
+            WithKey : string option
+            Default : string option
+            //force
+            Links : string option
+            Iterations : int option
+            Charge : string option
+            LinkDistance : string option
+            LinkStrength : string option
+            Friction : int option
+            Theta : float option
+            Gravity : float option
+            Alpha : float option
+            //geo
+            Projection : string option
+            Lon : string option
+            Lat : string option
+            Center : (int list) option
+            Translate : (int list) option
+            Scale : float option
+            Rotate : float option
+            Precision : float option
+            ClipAngle : float option
+            //link
+            Source : string option
+            Target : string option
+            Shape : string option
+            Tension : float option
+            //stack
+            Point : string option
+            Height : string option
+            Offset : string option
+            Order : string option
+            //treemap
+            Padding : (int list) option
+            Ratio : int option
+            Round : bool option
+            Sticky : bool option
+            //wordcloud
+            Font : string option
+            FontSize : string option
+            FontStyle : string option
+            FontWeight : string option
+            //Rotate : string option
+            Text : string option
+        }
+
+
+        //| NotYet //TODO: Define Data Transform
 
     type Data<'a> =
         {
@@ -377,7 +670,7 @@ module Grammar =
 
     type MarkFrom =
         | Data of DataFrom
-        | Transforms of string list
+        | Transforms of Transform list
         | NoMark
 
     type MarkValueRef =

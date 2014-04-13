@@ -137,6 +137,7 @@
     <Content Include="Scripts\editor.js" />
     <Content Include="Scripts\jquery.signalR-2.0.3.min.js" />
     <Content Include="Scripts\jquery.signalR-2.0.3.js" />
+    <Content Include="Scripts\data\iris.json" />
     <None Include="fonts\glyphicons-halflings-regular.woff" />
     <None Include="fonts\glyphicons-halflings-regular.ttf" />
     <None Include="fonts\glyphicons-halflings-regular.svg" />
@@ -160,7 +161,7 @@
     <None Include="packages.config" />
     <Content Include="readme.txt" />
     <Content Include="LICENSE.txt" />
-    <None Include="Scripts\data\iris.json" />
+    
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
