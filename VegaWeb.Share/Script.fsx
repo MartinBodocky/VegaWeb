@@ -43,17 +43,6 @@ open VegaWeb.Error
 #load "Scatter.fs"
 open VegaWeb.Scatter
 
-type ForceTransformX =
-        {
-            ``typ e`` : string
-            ``liNks`` : string   
-            jozko : int
-        }
-
-let obb : ForceTransformX = { ``typ e`` = "aaa";  liNks = "das"; jozko =12 }
-
-obb |> toJSON
-
 
 let datapath = __SOURCE_DIRECTORY__ + @"\iris.data"
 
@@ -80,8 +69,6 @@ let scatter = scatter (data |> Seq.toList) ("XVar", "YVar", "Type")
 scatter |> toJSON |> Clipboard.SetText
 
 
-
-(*
 type Error = { Label : string; Mean: int; Lo : float; Hi : float}
 let errorData =
     [
@@ -96,8 +83,6 @@ let errorBar = error errorData ("Label", "Mean", "Lo", "Hi")
 
 errorBar |> toJSON |> Clipboard.SetText
 
-
-
 type Item = { X: int; Y:int}
 
 let dataset =
@@ -108,6 +93,9 @@ let dataset =
 let barElement = bar dataset ("X", "Y")
 
 barElement |> toJSON |> Clipboard.SetText
+
+
+(*
 
 *)
 

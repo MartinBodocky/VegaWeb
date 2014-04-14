@@ -4,125 +4,123 @@ module Scatter =
 
     open VegaWeb.Grammar
 
-    
-
     let scatter dataset (x:string, y: string, c: string) =
-        let dataSet = { DefaultData with Values = Some(dataset); Name = "iris" }
+        let dataSet = { DefaultData with values = Some(dataset); name = "iris" }
 
         let scaleX = 
             { 
                 DefaultScale with
-                    Name = "x"
-                    Nice = Some(True)
-                    Range = Some(Field(Width))
-                    Domain = Some(DataRef(One({Data = "iris"; Field = "data." + x})))
+                    name = "x"
+                    nice = Some(True)
+                    range = Some(Field(Width))
+                    domain = Some(DataRef(One({data = "iris"; field = "data." + x})))
             }
 
         let scaleY =
             {
                 DefaultScale with
-                    Name = "y"
-                    Range = Some(Field(Height))
-                    Domain = Some(DataRef(One({Data = "iris"; Field = "data." + y})))
-                    Nice = Some(True)
+                    name = "y"
+                    range = Some(Field(Height))
+                    domain = Some(DataRef(One({data = "iris"; field = "data." + y})))
+                    nice = Some(True)
             }
         let scaleC =
             {
                 DefaultScale with
-                    Name = "c"
-                    Type = Ordinal
-                    Range = Some(RangeArray(["#800"; "#080"; "#008"]))
-                    Domain = Some(DataRef(One({Data = "iris"; Field = "data." + c})))
+                    name = "c"
+                    ``type`` = Ordinal
+                    range = Some(RangeArray(["#800"; "#080"; "#008"]))
+                    domain = Some(DataRef(One({data = "iris"; field = "data." + c})))
             }
 
-        let axesX = { DefaultAxis with Type = X; Scale = "x"; OffSet = Some("5"); Ticks=Some(5); Title = Some(x) }
-        let axesY = { DefaultAxis with Type = Y; Scale = "y"; OffSet = Some("5"); Ticks=Some(5); Title = Some(y) }
+        let axesX = { DefaultAxis with ``type`` = X; scale = "x"; offset = Some("5"); ticks=Some(5); title = Some(x) }
+        let axesY = { DefaultAxis with ``type`` = Y; scale = "y"; offset = Some("5"); ticks=Some(5); title = Some(y) }
 
         let legendSymbol =
             {
                 DefaultLegenfPropertyValue with
-                    FillOpacity = Some({ Value = "0.5"})
-                    Stroke = Some({ Value = "transparent"})
+                    fillOpacity = Some({ value = "0.5"})
+                    stroke = Some({ value = "transparent"})
             }
 
         let legendProperties =
             {
                 DefaultLegendProperty with
-                    Symbols = Some(legendSymbol)
+                    symbols = Some(legendSymbol)
             }
 
         let legend = 
             { 
                 DefaultLegend with 
-                    Fill = Some("c")
-                    Title= Some(c)
-                    Offset = Some(0.)
-                    Properties = Some(legendProperties)
+                    fill = Some("c")
+                    title= Some(c)
+                    offset = Some(0.)
+                    properties = Some(legendProperties)
             }
 
         let markUpdate = Some({
                                 DefaultMarkVisualProperty with
-                                    Size = Some({
+                                    size = Some({
                                                     DefaultMarkValueRef with
-                                                        Value = Some("100")
+                                                        value = Some("100")
                                                 })
-                                    Stroke = Some(Value({ Value = "transparent"}))
+                                    stroke = Some(Value({ value = "transparent"}))
                             })
         let markHover = Some({
                                 DefaultMarkVisualProperty with
-                                    Size = Some({
+                                    size = Some({
                                                     DefaultMarkValueRef with
-                                                        Value = Some("300")
+                                                        value = Some("300")
                                                 })
-                                    Stroke = Some(Value({ Value = "white"}))
+                                    stroke = Some(Value({ value = "white"}))
                             })
 
         let markEnter = Some({
                                 DefaultMarkVisualProperty with
-                                    X = Some({
+                                    x = Some({
                                                 DefaultMarkValueRef with
-                                                    Scale = Some("x"); Field = Some("data." + x)
+                                                    scale = Some("x"); field = Some("data." + x)
                                         })
-                                    Y = Some({
+                                    y = Some({
                                                 DefaultMarkValueRef with
-                                                    Scale = Some("y"); Field = Some("data." + y)
+                                                    scale = Some("y"); field = Some("data." + y)
                                         })
-                                    Fill = Some(VisualValue({
+                                    fill = Some(VisualValue({
                                                             DefaultMarkValueRef with
-                                                                Scale = Some("c"); Field = Some("data." + c)
+                                                                scale = Some("c"); field = Some("data." + c)
                                             }))
-                                    FillOpacity = Some({
+                                    fillOpacity = Some({
                                                         DefaultMarkValueRef with
-                                                            Value = Some("0.5")
+                                                            value = Some("0.5")
                                                     })
                             })
 
         let properties : MarkPropertySet =
             {
                 DefaultMarkPropertySet with
-                    Update = markUpdate
-                    Hover = markHover
-                    Enter = markEnter
+                    update = markUpdate
+                    hover = markHover
+                    enter = markEnter
             }
 
         let mark = 
             {
                 DefaultMark with 
-                    Type = Symbol
-                    From = Data({ Data = "iris"})
-                    Properties = properties
+                    ``type`` = Symbol
+                    from = Data({ data = "iris"})
+                    properties = properties
             }                        
                             
         
         let scatterElement : Element<'a> =
             {
                 DefaultElement with
-                    Height = 200
-                    Width = 200
-                    Data = Some([ dataSet ])
-                    Scales = Some([scaleX;  scaleY; scaleC])
-                    Legends = Some([ legend ])
-                    Axes = Some([axesX; axesY])
-                    Marks = Some([mark])
+                    height = 200
+                    width = 200
+                    data = Some([ dataSet ])
+                    scales = Some([scaleX;  scaleY; scaleC])
+                    legends = Some([ legend ])
+                    axes = Some([axesX; axesY])
+                    marks = Some([mark])
             }
         scatterElement

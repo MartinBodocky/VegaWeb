@@ -11,14 +11,10 @@ module Grammar =
 
     type Orientation =
         { 
-            [<JsonProperty("top")>]
-            Top : int
-            [<JsonProperty("left")>]
-            Left : int
-            [<JsonProperty("right")>]
-            Right : int
-            [<JsonProperty("bottom")>]
-            Bottom : int
+            top : int
+            left : int
+            right : int
+            bottom : int
         }                 
 
     type AutoPadding =
@@ -51,197 +47,232 @@ module Grammar =
 
     type ArrayTransform =
         {
-            [<JsonProperty("type")>]
-            Type : string 
-            [<JsonProperty("fields")>]
-            Fields : (string list) option
+            ``type`` : string 
+            fields : (string list) option
         }
 
-    let DefaultArrayTransform = { Type = "array"; Fields = None }
+    let DefaultArrayTransform = { ``type`` = "array"; fields = None }
 
     type CopyTransform =
         {
-            [<JsonProperty("type")>]
-            Type : string
-            [<JsonProperty("from")>]
-            From : string option
-            [<JsonProperty("fields")>]
-            Fields : (string list) option
-            [<JsonProperty("as")>]
-            As : (string list) option
+            ``type`` : string
+            from : string option
+            fields : (string list) option
+            ``as`` : (string list) option
         }
 
-    let DefaultCopyTransform = { Type = "copy"; Fields = None; From = None; As = None}
+    let DefaultCopyTransform = { ``type`` = "copy"; fields = None; from = None; ``as`` = None}
 
     type CrossTransform =
         {
-            [<JsonProperty("type")>]
-            Type : string
-            [<JsonProperty("with")>]
-            With : string option
-            [<JsonProperty("diagonal")>]
-            Diagonal : bool option
+            ``type`` : string
+            ``with`` : string option
+            diagonal : bool option
         }
-    let DefaultCrossTransform = { Type = "cross"; With = None; Diagonal = None}
+    let DefaultCrossTransform = { ``type`` = "cross"; ``with`` = None; diagonal = None}
 
     type FacetTransform =
         {
-            [<JsonProperty("type")>]
-            Type : string
-            [<JsonProperty("keys")>]
-            Keys : (string list) option
-            [<JsonProperty("sort")>]
-            Sort : (string list) option
+            ``type`` : string
+            keys : (string list) option
+            sort : (string list) option
         }
-    let DefaultFacetTransform = { Type = "facet"; Keys = None; Sort = None}
+    let DefaultFacetTransform = { ``type`` = "facet"; keys = None; sort = None}
 
     type FilterTransform =
         {
-            [<JsonProperty("type")>]
-            Type : string
-            [<JsonProperty("test")>]
-            Test : string option
+            ``type`` : string
+            test : string option
         }
-    let DefaultFilterTransform = { Type = "filter"; Test = None}
+    let DefaultFilterTransform = { ``type`` = "filter"; test = None}
 
     type FlattenTransform =
         {
-            [<JsonProperty("type")>]
-            Type : string
+            ``type`` : string
         }
-    let DefaultFlattenTransform = { Type = "flatten"}
+    let DefaultFlattenTransform = { ``type`` = "flatten"}
 
     type FoldTransform = 
         {
-            [<JsonProperty("type")>]
-            Type : string
-            [<JsonProperty("fields")>]
-            Fields : (string list) option
+            ``type`` : string
+            fields : (string list) option
         }
-    let DefaultFoldTransform = { Type = "fold"; Fields = None}
+    let DefaultFoldTransform = { ``type`` = "fold"; fields = None}
 
     type FormulaTransform =
         {
-            [<JsonProperty("type")>]
-            Type : string
-            [<JsonProperty("field")>]
-            Field : string option
-            [<JsonProperty("expr")>]
-            Expr : string option
+            ``type`` : string
+            field : string option
+            expr : string option
         }
-    let DefaultFormulaTransform = { Type = "formula"; Field = None; Expr = None}
+    let DefaultFormulaTransform = { ``type`` = "formula"; field = None; expr = None}
     
     type SliceTransform =
         {
-            [<JsonProperty("type")>]
-            Type : string
-            [<JsonProperty("by")>]
-            By : (int list) option
-            [<JsonProperty("field")>]
-            Field : string option
+            ``type`` : string
+            by : (int list) option
+            field : string option
         }
-    let DefaultSliceTransform = { Type = "slice"; By = None; Field = None}
+    let DefaultSliceTransform = { ``type`` = "slice"; by = None; field = None}
 
     type SortTransform  =
         {
-            [<JsonProperty("type")>]
-            Type : string
-            [<JsonProperty("by")>]
-            By : (string list) option
+            ``type`` : string
+            by : (string list) option
         }
-    let DefaultSortTransform = { Type = "sort"; By = None}
+    let DefaultSortTransform = { ``type`` = "sort"; by = None}
 
     type StatsTransform =
         {
-            [<JsonProperty("type")>]
-            Type : string
-            [<JsonProperty("value")>]
-            Value : string option
-            [<JsonProperty("median")>]
-            Median : bool option
-            [<JsonProperty("assign")>]
-            Assign : bool option
+            ``type`` : string
+            value : string option
+            median : bool option
+            assign : bool option
         }
-    let DefaultStatsTransform = { Type = "stats"; Value = None; Median = None; Assign = None}
+    let DefaultStatsTransform = { ``type`` = "stats"; value = None; median = None; assign = None}
 
     type TruncateTransform =
         {
-            [<JsonProperty("type")>]
-            Type : string
-            [<JsonProperty("value")>]
-            Value : string option
-            [<JsonProperty("output")>]
-            Output : string option
-            [<JsonProperty("limit")>]
-            Limit : int option
-            [<JsonProperty("position")>]
-            Position : string option
-            [<JsonProperty("ellipsis")>]
-            Ellipsis : string option
-            [<JsonProperty("wordbreak")>]
-            Wordbreak : bool option
+            ``type`` : string
+            value : string option
+            output : string option
+            limit : int option
+            position : string option
+            ellipsis : string option
+            wordbreak : bool option
         }
     let DefaultTruncateTransform = 
         {
-            Type = "truncate"; Value = None; Output = None;
-            Limit = None; Position = None; Ellipsis = None; Wordbreak = None
+            ``type`` = "truncate"; value = None; output = None;
+            limit = None; position = None; ellipsis = None; wordbreak = None
         }
 
     type UniqueTransform =
         {
-            [<JsonProperty("type")>]
-            Type : string
-            [<JsonProperty("field")>]
-            Field : string option
-            [<JsonProperty("as")>]
-            As : string option
+            ``type`` : string
+            field : string option
+            ``as`` : string option
         }
-    let DefaultUniqueTransform = { Type = "unique"; Field = None; As = None}
+    let DefaultUniqueTransform = { ``type`` = "unique"; field = None; ``as`` = None}
 
     type WindowTransform =
         {
-            [<JsonProperty("type")>]
-            Type : string
-            [<JsonProperty("size")>]
-            Size : int option
-            [<JsonProperty("step")>]
-            Step : int option
+            ``type`` : string
+            size : int option
+            step : int option
         }
-    let DefaultWindowTransform = { Type = "window"; Size = None; Step = None}
+    let DefaultWindowTransform = { ``type`` = "window"; size = None; step = None}
 
     type ZipTransform =
         {
-            [<JsonProperty("type")>]
-            Type : string
-            [<JsonProperty("with")>]
-            With : string option
-            [<JsonProperty("as")>]
-            As : string option
-            [<JsonProperty("key")>]
-            Key : string option
-            [<JsonProperty("withKey")>]
+            ``type`` : string
+            ``with`` : string option
+            ``as`` : string option
+            key : string option
             withKey : string option
-            [<JsonProperty("default")>]
-            Default : string option
+            ``default`` : string option
         }
-    let DefaultZipTransform = { Type = "zip"; With = None; As = None; Key = None; withKey = None; Default = None }
+    let DefaultZipTransform = { ``type`` = "zip"; ``with`` = None; ``as`` = None; key = None; withKey = None; ``default`` = None }
 
     type ForceTransform =
         {
             ``type`` : string
-            ``links`` : string option
-            ``size`` : (int list) option
-            ``iterations`` : int option
-            ``charge`` : string option
-            ``linkDistance`` : string option
-            ``linkStrength`` : string option
-            ``friction`` : int option
-            ``theta`` : float option
-            ``gravity`` : int option
-            ``aplha`` : float option
+            links : string option
+            size : (int list) option
+            iterations : int option
+            charge : string option
+            linkDistance : string option
+            linkStrength : string option
+            friction : int option
+            theta : float option
+            gravity : int option
+            alpha : float option
         }
-    let DefaultForceTransform : ForceTransform = { ``type`` = "force"; links = None; }
+    let DefaultForceTransform : ForceTransform = 
+        { 
+            ``type`` = "force"; links = None; size = None;
+            iterations = None; charge = None; linkDistance = None
+            linkStrength = None; friction = None; theta = None
+            gravity = None; alpha = None
+        }
 
+    type GeoTransform =
+        {
+            ``type`` : string
+            projection : string option
+            lon : string option
+            lan : string option
+            center : (int list) option
+            translate : (int list) option
+            scale : int option
+            rotate : int option
+            precision : int option
+            clipAngle : int option
+        }
+
+    type GeoPathTransform =
+        {
+            ``type`` : string
+            value : string option
+            projection : string option
+            lon : string option
+            lan : string option
+            center : (int list) option
+            translate : (int list) option
+            scale : int option
+            rotate : int option
+            precision : int option
+            clipAngle : int option
+        }
+
+    type LinkTransform =
+        {
+            ``type`` : string
+            source : string option
+            target : string option
+            shape : string option
+            tension : float option
+        }
+
+    type PieTransform =
+        {
+            ``type`` : string
+            sort : bool option
+            value : string option
+        }
+
+    type StackTransform =
+        {
+            ``type`` : string
+            point : string option
+            height : string option
+            offset : string option
+            order : string option
+        }
+
+    type TreemapTransform =
+        {
+            ``type`` : string
+            padding : (int list) option
+            ratio : int option
+            round : bool option
+            size : (int list) option
+            sticky : bool option
+            value : string option
+        }
+
+    type WordcloudTransform = 
+        {
+            ``type`` : string
+            font : string option
+            fontSize : string option
+            fontStyle : string option
+            fontWeight : string option
+            padding : (int list) option
+            rotate : string option
+            size : (int list) option
+            text : string option
+        }
 
     type Transform =
         | Array of ArrayTransform
@@ -259,149 +290,56 @@ module Grammar =
         | Unique of UniqueTransform
         | Window of WindowTransform
         | Zip of ZipTransform
-        | Force
-        | Geo 
-        | GeoPath 
-        | Link 
-        | Pie
-        | Stack 
-        | TreeMap 
-        | WordCloud
-
-
-
-    type TransformNo =
-        {
-            Type : string 
-            //array
-            Fields : (string list) option
-            //copy
-            From : string option
-            As : (string list) option
-            //cross
-            With : string option
-            Diagonal : bool option
-            //facet
-            Keys : (string list) option
-            Sort : (string list) option
-            //filter
-            Test : string option
-            //formula
-            Field : string option
-            Expr : string option
-            //slice
-            By : (float list) option
-            //stats
-            Value : string option
-            Median : bool option
-            Assign : bool option
-            //Truncate
-            Output : string option
-            Limit : int option
-            Position : string option
-            Ellipsis : string option
-            Wordbreak : bool option
-            //window 
-            Size : float option
-            Step : float option
-            //zip
-            WithKey : string option
-            Default : string option
-            //force
-            Links : string option
-            Iterations : int option
-            Charge : string option
-            LinkDistance : string option
-            LinkStrength : string option
-            Friction : int option
-            Theta : float option
-            Gravity : float option
-            Alpha : float option
-            //geo
-            Projection : string option
-            Lon : string option
-            Lat : string option
-            Center : (int list) option
-            Translate : (int list) option
-            Scale : float option
-            Rotate : float option
-            Precision : float option
-            ClipAngle : float option
-            //link
-            Source : string option
-            Target : string option
-            Shape : string option
-            Tension : float option
-            //stack
-            Point : string option
-            Height : string option
-            Offset : string option
-            Order : string option
-            //treemap
-            Padding : (int list) option
-            Ratio : int option
-            Round : bool option
-            Sticky : bool option
-            //wordcloud
-            Font : string option
-            FontSize : string option
-            FontStyle : string option
-            FontWeight : string option
-            //Rotate : string option
-            Text : string option
-        }
-
-
-        //| NotYet //TODO: Define Data Transform
+        | Force of ForceTransform
+        | Geo of GeoTransform
+        | GeoPath of GeoPathTransform
+        | Link of LinkTransform
+        | Pie of PieTransform
+        | Stack of StackTransform
+        | TreeMap of TreemapTransform
+        | WordCloud of WordcloudTransform
 
     type Data<'a> =
         {
-            [<JsonProperty("name")>]
-            Name : string
-            [<JsonProperty("format")>]
-            Format : Format option
-            [<JsonProperty("values")>]
-            Values : 'a list option
-            [<JsonProperty("source")>]
-            Source : string option
-            [<JsonProperty("url")>]
-            Url : string option
-            [<JsonProperty("transforms")>]
-            Transforms : (Transform list) option
+            name : string
+            format : Format option
+            values : 'a list option
+            source : string option
+            url : string option
+            transforms : (Transform list) option
         }
 
-    let DefaultData<'a> : Data<'a> = {Name = "table"; Format = None; Values = None; Source = None; Url = None; Transforms = None }
+    let DefaultData<'a> : Data<'a> = {name = "table"; format = None; values = None; source = None; url = None; transforms = None }
 
 (* END Data*)
 
 (* START Scale*)
 
     type ScaleType =
-        | Linear | Ordinal
-        | Time | Utc
-        | Log | Pow | Sqrt
+        | Linear 
+        | Ordinal
+        | Time 
+        | Utc
+        | Log 
+        | Pow 
+        | Sqrt
         | Quantile
         | Quantize
         | Threshold
 
     type DomainOne = 
         {
-            [<JsonProperty("data")>] 
-            Data : string
-            [<JsonProperty("field")>]
-            Field: string
+            data : string
+            field: string
         }
     type DomainOneMore = 
         {
-            [<JsonProperty("data")>]
-            Data : string
-            [<JsonProperty("fields")>]
-            Fields : string list
+            data : string
+            fields : string list
         }
     type DomainMulti = 
         {   
-            [<JsonProperty("fields")>]
-            Fields : DomainOne list
+            fields : DomainOne list
         }
 
     type DataRef =
@@ -433,55 +371,40 @@ module Grammar =
         | Day | Week | Month
         | Year | True | False
 
+
+
     type Scale =
         {
-            [<JsonProperty("name")>]
-            Name : string
-            [<JsonProperty("type")>]
-            Type : ScaleType
-            [<JsonProperty("domain")>]
-            Domain : Domain option
-            [<JsonProperty("domainmix")>]
-            DomainMin : DomainValue option
-            [<JsonProperty("domainmax")>]
-            DomainMax : DomainValue option
-            [<JsonProperty("range")>]
-            Range : Range option
-            [<JsonProperty("rangemix")>]
-            RangeMin : float option
-            [<JsonProperty("rangemax")>]
-            RangeMax : float option
-            [<JsonProperty("reverse")>]
-            Reverse : bool option
-            [<JsonProperty("round")>]
-            Round : bool option
+            name : string
+            ``type`` : ScaleType
+            domain : Domain option
+            domainMin : DomainValue option
+            domainMax : DomainValue option
+            range : Range option
+            rangeMin : float option
+            rangeMax : float option
+            reverse : bool option
+            round : bool option
             //Ordinal Scale
-            [<JsonProperty("points")>]
-            Points : bool option
-            [<JsonProperty("padding")>]
-            Padding: float option
-            [<JsonProperty("sort")>]
-            Sort : bool option
+            points : bool option
+            padding: float option
+            sort : bool option
             // Time Scale
-            [<JsonProperty("clamp")>]
-            Clamp : bool option
-            [<JsonProperty("nice")>]
-            Nice : NiceScale option
+            clamp : bool option
+            nice : NiceScale option
             // Quantitative scale
-            [<JsonProperty("exponent")>]
-            Exponent : float option
-            [<JsonProperty("zero")>]
-            Zero : bool option
+            exponent : float option
+            zero : bool option
         }
 
     let DefaultScale : Scale = 
         { 
-            Name = "x"; Type = Linear; Domain = None; 
-            DomainMax = None; DomainMin = None; Range = None;
-            RangeMax = None; RangeMin = None; Reverse = None;
-            Round = None; Points = None; Padding = None;
-            Sort = None; Clamp = None; Nice = None;
-            Exponent = None; Zero = None
+            name = "x"; ``type`` = Linear; domain = None; 
+            domainMax = None; domainMin = None; range = None;
+            rangeMax = None; rangeMin = None; reverse = None;
+            round = None; points = None; padding = None;
+            sort = None; clamp = None; nice = None;
+            exponent = None; zero = None
         }
 
 (* END Scale*)
@@ -508,67 +431,44 @@ module Grammar =
 
     type AxisProperty =
         {
-            [<JsonProperty("ticks")>]
-            Ticks : (string * string) list
-            [<JsonProperty("majorticks")>]
-            MajorTicks : (string * string) list
-            [<JsonProperty("labels")>]
-            Labels : (string * string) list
-            [<JsonProperty("title")>]
-            Title : (string * string) list
-            [<JsonProperty("axis")>]
-            Axis : (string * string) list
+            ticks : (string * string) list
+            majorticks : (string * string) list
+            labels : (string * string) list
+            title : (string * string) list
+            axis : (string * string) list
         }
 
     type Axis =
         {
-            [<JsonProperty("type")>]
-            Type : AxisDirection
-            [<JsonProperty("scale")>]
-            Scale : string
-            [<JsonProperty("orient")>]
-            Orient : AxisOrientation option
-            [<JsonProperty("title")>]
-            Title : string option
-            [<JsonProperty("titleoffset")>]
-            TitleOffset : float option
-            [<JsonProperty("format")>]
-            Format : string option
-            [<JsonProperty("ticks")>]
-            Ticks : int option
-            [<JsonProperty("values")>]
-            Values : (System.Object list) option
-            [<JsonProperty("subdivide")>]
-            SubDivide : float option
-            [<JsonProperty("tickpadding")>]
-            TickPadding : int option
-            [<JsonProperty("ticksize")>]
-            TickSize : float option
-            [<JsonProperty("ticksizemajor")>]
-            TickSizeMajor : float option
-            [<JsonProperty("ticksizeminor")>]
-            TickSizeMinor : float option
-            [<JsonProperty("ticksizeend")>]
-            TickSizeEnd : float option
-            [<JsonProperty("layer")>]
-            Layer : AxisLayer option
-            [<JsonProperty("offset")>]
-            OffSet : string option
-            [<JsonProperty("grid")>]
-            Grid : bool option
-            [<JsonProperty("properties")>]
-            Properties : AxisProperty option
+            ``type`` : AxisDirection
+            scale : string
+            orient : AxisOrientation option
+            title : string option
+            titleoffset : float option
+            format : string option
+            ticks : int option
+            values : (System.Object list) option
+            subdivide : float option
+            tickpadding : int option
+            ticksize : float option
+            ticksizemajor : float option
+            ticksizeminor : float option
+            ticksizeend : float option
+            layer : AxisLayer option
+            offset : string option
+            grid : bool option
+            properties : AxisProperty option
         }
 
     let DefaultAxis : Axis = 
         {
-            Type = X; Scale = "x";
-            Orient = None; Title = None; TitleOffset = None;
-            Format = None; Ticks = None; Values = None;
-            SubDivide = None; TickPadding = None; TickSize = None;
-            TickSizeMajor = None; TickSizeMinor = None;
-            TickSizeEnd = None; Layer = None; Grid = None;
-            Properties = None; OffSet = None
+            ``type`` = X; scale = "x";
+            orient = None; title = None; titleoffset = None;
+            format = None; ticks = None; values = None;
+            subdivide = None; tickpadding = None; ticksize = None;
+            ticksizemajor = None; ticksizeminor = None;
+            ticksizeend = None; layer = None; grid = None;
+            properties = None; offset = None
         }
 
 (* END Axis*)
@@ -581,74 +481,56 @@ module Grammar =
 
     type LegengPropertyValue =
         {
-            [<JsonProperty("value")>]
-            Value : string
+            value : string
         }
 
     type LegendPropertyValue =
         {
-            [<JsonProperty("fillOpacity")>]
-            FillOpacity : LegengPropertyValue option
-            [<JsonProperty("stroke")>]
-            Stroke : LegengPropertyValue option
+            fillOpacity : LegengPropertyValue option
+            stroke : LegengPropertyValue option
         }
 
     let DefaultLegenfPropertyValue : LegendPropertyValue =
         {
-            FillOpacity = None; Stroke = None
+            fillOpacity = None; stroke = None
         }
 
     type LegendProperty = 
         {
-            [<JsonProperty("title")>]
-            Title : LegendPropertyValue option
-            [<JsonProperty("labels")>]
-            Labels : LegendPropertyValue option
-            [<JsonProperty("symbols")>]
-            Symbols : LegendPropertyValue option
-            [<JsonProperty("gradient")>]
-            Gradient : LegendPropertyValue option
-            [<JsonProperty("legend")>]
-            Legend : LegendPropertyValue option
+            title : LegendPropertyValue option
+            labels : LegendPropertyValue option
+            symbols : LegendPropertyValue option
+            gradient : LegendPropertyValue option
+            legend : LegendPropertyValue option
         }
 
     let DefaultLegendProperty : LegendProperty =
         {
-            Title = None; Labels = None;
-            Symbols = None; Gradient = None;
-            Legend = None
+            title = None; labels = None;
+            symbols = None; gradient = None;
+            legend = None
         }
 
     type Legend =
         {
-            [<JsonProperty("size")>]
-            Size : string option
-            [<JsonProperty("shape")>]
-            Shape : string option
-            [<JsonProperty("fill")>]
-            Fill : string option
-            [<JsonProperty("stroke")>]
-            Stroke : string option
-            [<JsonProperty("orient")>]
-            Orient : LegendOrient option
-            [<JsonProperty("title")>]
-            Title : string option
-            [<JsonProperty("format")>]
-            Format : string option
-            [<JsonProperty("values")>]
-            Values : (System.Object list) option
-            [<JsonProperty("offset")>]
-            Offset : float option
-            [<JsonProperty("properties")>]
-            Properties : LegendProperty option
+            size : string option
+            shape : string option
+            fill : string option
+            stroke : string option
+            orient : LegendOrient option
+            title : string option
+            format : string option
+            values : (System.Object list) option
+            offset : float option
+            properties : LegendProperty option
         }
 
     let DefaultLegend : Legend =
         {
-            Size = None; Shape = None; Fill = None;
-            Stroke = None; Orient = None; Title = None;
-            Format = None; Values = None;
-            Properties = None; Offset = None
+            size = None; shape = None; fill = None;
+            stroke = None; orient = None; title = None;
+            format = None; values = None;
+            properties = None; offset = None
         }
 
 (* END Legend*)
@@ -664,8 +546,7 @@ module Grammar =
         
     type DataFrom =
         {
-            [<JsonProperty("data")>]
-            Data : string
+            data : string
         }
 
     type MarkFrom =
@@ -675,27 +556,20 @@ module Grammar =
 
     type MarkValueRef =
         {
-            [<JsonProperty("value")>]
-            Value : string option
-            [<JsonProperty("field")>]
-            Field : string option
-            [<JsonProperty("group")>]
-            Group : string option
-            [<JsonProperty("scale")>]
-            Scale : string option
-            [<JsonProperty("mult")>]
-            Mult : float option
-            [<JsonProperty("offset")>]
-            Offset : float option
-            [<JsonProperty("band")>]
-            Band : bool option
+            value : string option
+            field : string option
+            group : string option
+            scale : string option
+            mult : float option
+            offset : float option
+            band : bool option
         }
 
     let DefaultMarkValueRef =
         {
-            Value = None; Field = None;
-            Group = None; Scale = None;
-            Mult = None; Offset = None; Band = None
+            value = None; field = None;
+            group = None; scale = None;
+            mult = None; offset = None; band = None
         }
 
     type EaseFunction =
@@ -708,48 +582,35 @@ module Grammar =
 
     type ColorRGB =
         {
-            [<JsonProperty("r")>]
-            R : MarkValueRef
-            [<JsonProperty("g")>]
-            G : MarkValueRef
-            [<JsonProperty("b")>]
-            B : MarkValueRef
+            r : MarkValueRef
+            g : MarkValueRef
+            b : MarkValueRef
         }
 
     type ColorHSL =
         {
-            [<JsonProperty("h")>]
-            H : MarkValueRef
-            [<JsonProperty("s")>]
-            S : MarkValueRef
-            [<JsonProperty("l")>]
-            L : MarkValueRef 
+            h : MarkValueRef
+            s : MarkValueRef
+            l : MarkValueRef 
         }
 
     type ColorCIELAB =
         {
-            [<JsonProperty("l")>]
-            L : MarkValueRef
-            [<JsonProperty("a")>]
-            A : MarkValueRef
-            [<JsonProperty("b")>]
-            B : MarkValueRef
+            l : MarkValueRef
+            a : MarkValueRef
+            b : MarkValueRef
         }
 
     type ColorHCL =
         {
-            [<JsonProperty("h")>]
-            H : MarkValueRef
-            [<JsonProperty("c")>]
-            C : MarkValueRef
-            [<JsonProperty("l")>]
-            L : MarkValueRef
+            h : MarkValueRef
+            c : MarkValueRef
+            l : MarkValueRef
         }
 
     type ColorValue =
         {
-            [<JsonProperty("value")>]
-            Value : string
+            value : string
         }
 
     type ColorValueRef =
@@ -762,145 +623,98 @@ module Grammar =
 
     type MarkVisualProperty =
         {
-            [<JsonProperty("x")>]
-            X : MarkValueRef option
-            [<JsonProperty("x2")>]
-            X2 : MarkValueRef option
-            [<JsonProperty("width")>]
-            Width : MarkValueRef option
-            [<JsonProperty("y")>]
-            Y : MarkValueRef option
-            [<JsonProperty("y2")>]
-            Y2 : MarkValueRef option
-            [<JsonProperty("height")>]
-            Height : MarkValueRef option
-            [<JsonProperty("opacity")>]
-            Opacity : MarkValueRef option
-            [<JsonProperty("fill")>]
-            Fill : ColorValueRef option
-            [<JsonProperty("fillOpacity")>]
-            FillOpacity : MarkValueRef option
-            [<JsonProperty("stroke")>]
-            Stroke : ColorValueRef option
-            [<JsonProperty("strokewidth")>]
-            StrokeWidth : MarkValueRef option
-            [<JsonProperty("strokeopacity")>]
-            StrokeOpacity  : MarkValueRef option
-            [<JsonProperty("strokedash")>]
-            StrokeDash : MarkValueRef option
-            [<JsonProperty("strokedashoffset")>]
-            StrokeDashOffset : MarkValueRef option
+            x : MarkValueRef option
+            x2 : MarkValueRef option
+            width : MarkValueRef option
+            y : MarkValueRef option
+            y2 : MarkValueRef option
+            height : MarkValueRef option
+            opacity : MarkValueRef option
+            fill : ColorValueRef option
+            fillOpacity : MarkValueRef option
+            stroke : ColorValueRef option
+            strokewidth : MarkValueRef option
+            strokeopacity  : MarkValueRef option
+            strokedash : MarkValueRef option
+            strokedashoffset : MarkValueRef option
             //Symbol
-            [<JsonProperty("size")>]
-            Size : MarkValueRef option
-            [<JsonProperty("shape")>]
-            Shape : MarkValueRef option
+            size : MarkValueRef option
+            shape : MarkValueRef option
             //Path
-            [<JsonProperty("path")>]
-            Path : MarkValueRef option
+            path : MarkValueRef option
             //Arc
-            [<JsonProperty("innerradius")>]
-            InnerRadius : MarkValueRef option
-            [<JsonProperty("outerradius")>]
-            OuterRadius : MarkValueRef option
-            [<JsonProperty("startangle")>]
-            StartAngle : MarkValueRef option
-            [<JsonProperty("endangle")>]
-            EndAngle : MarkValueRef option
+            innerradius : MarkValueRef option
+            outerradius : MarkValueRef option
+            startangle : MarkValueRef option
+            endangle : MarkValueRef option
             //Area - Line
-            [<JsonProperty("interpolate")>]
-            InterPolate : MarkValueRef option
-            [<JsonProperty("tension")>]
-            Tension : MarkValueRef option
+            interpolate : MarkValueRef option
+            tension : MarkValueRef option
             //Image
-            [<JsonProperty("url")>]
-            Url : MarkValueRef option
-            [<JsonProperty("align")>]
-            Align : MarkValueRef option
-            [<JsonProperty("baseline")>]
-            Baseline : MarkValueRef option
+            url : MarkValueRef option
+            align : MarkValueRef option
+            baseline : MarkValueRef option
             //Text 
-            [<JsonProperty("text")>]
-            Text : MarkValueRef option
-            [<JsonProperty("dx")>]
-            Dx : MarkValueRef option
-            [<JsonProperty("dy")>]
-            Dy : MarkValueRef option
-            [<JsonProperty("angle")>]
-            Angle : MarkValueRef option
-            [<JsonProperty("font")>]
-            Font : MarkValueRef option
-            [<JsonProperty("fontsize")>]
-            FontSize : MarkValueRef option
-            [<JsonProperty("fontweight")>]
-            FontWeight : MarkValueRef option
-            [<JsonProperty("fontstyle")>]
-            FontStyle : MarkValueRef option
+            text : MarkValueRef option
+            dx : MarkValueRef option
+            dy : MarkValueRef option
+            angle : MarkValueRef option
+            font : MarkValueRef option
+            fontsize : MarkValueRef option
+            fontweight : MarkValueRef option
+            fontstyle : MarkValueRef option
         }
 
     let DefaultMarkVisualProperty : MarkVisualProperty =
         {
-            X = None; X2 = None; Width = None; Y = None;
-            Y2 = None; Height = None; Opacity = None;
-            Fill = None; FillOpacity = None; Stroke = None;
-            StrokeWidth = None; StrokeOpacity = None;
-            StrokeDash = None; StrokeDashOffset = None;
-            Size = None; Shape = None; Path = None;
-            InnerRadius = None; OuterRadius = None;
-            StartAngle = None; EndAngle = None;
-            InterPolate = None; Tension = None;
-            Url = None; Align = None; Baseline = None;
-            Text = None; Dx = None; Dy = None;
-            Angle = None; Font = None; FontSize = None;
-            FontWeight = None; FontStyle = None
+            x = None; x2 = None; width = None; y = None;
+            y2 = None; height = None; opacity = None;
+            fill = None; fillOpacity = None; stroke = None;
+            strokewidth = None; strokeopacity = None;
+            strokedash = None; strokedashoffset = None;
+            size = None; shape = None; path = None;
+            innerradius = None; outerradius = None;
+            startangle = None; endangle = None;
+            interpolate = None; tension = None;
+            url = None; align = None; baseline = None;
+            text = None; dx = None; dy = None;
+            angle = None; font = None; fontsize = None;
+            fontweight = None; fontstyle = None
         }
 
     type MarkPropertySet =
         {
-            [<JsonProperty("update")>]
-            Update : MarkVisualProperty option
-            [<JsonProperty("exit")>]
-            Exit : MarkVisualProperty option
-            [<JsonProperty("enter")>]
-            Enter : MarkVisualProperty option
-            [<JsonProperty("hover")>]
-            Hover : MarkVisualProperty option
+            update : MarkVisualProperty option
+            exit : MarkVisualProperty option
+            enter : MarkVisualProperty option
+            hover : MarkVisualProperty option
         }
 
     let DefaultMarkPropertySet : MarkPropertySet =
         {
-            Update = None; Exit = None;
-            Enter = None; Hover = None;
+            update = None; exit = None;
+            enter = None; hover = None;
         }
     
     type Mark =
         {
-            [<JsonProperty("type")>]
-            Type : MarkType
-            [<JsonProperty("name")>]
-            Name : string option
-            [<JsonProperty("description")>]
-            Description : string option
-            [<JsonProperty("from")>]
-            From : MarkFrom
-            [<JsonProperty("properties")>]
-            Properties : MarkPropertySet
-            [<JsonProperty("key")>]
-            Key : string option
-            [<JsonProperty("delay")>]
-            Delay : MarkValueRef option
-            [<JsonProperty("ease")>]
-            Ease : EaseFunction option
-            [<JsonProperty("marks")>]
-            Marks : (Mark list) option
+            ``type`` : MarkType
+            name : string option
+            description : string option
+            from : MarkFrom
+            properties : MarkPropertySet
+            key : string option
+            delay : MarkValueRef option
+            ease : EaseFunction option
+            marks : (Mark list) option
         }
 
     let DefaultMark : Mark =
         {
-            Type = Rect; Name = None; Description = None;
-            From = NoMark; 
-            Properties = DefaultMarkPropertySet; 
-            Key = None; Delay = None; Ease = None; Marks = None
+            ``type`` = Rect; name = None; description = None;
+            from = NoMark; 
+            properties = DefaultMarkPropertySet; 
+            key = None; delay = None; ease = None; marks = None
         }
 
 (* END Marks*)
@@ -909,35 +723,25 @@ module Grammar =
 
     type Element<'a> = 
         {
-            [<JsonProperty("name")>]
-            Name : string
-            [<JsonProperty("width")>]
-            Width : int
-            [<JsonProperty("height")>]
-            Height : int
-            [<JsonProperty("viewport")>]
-            ViewPort : (int * int) option
-            [<JsonProperty("padding")>]
-            Padding : Padding option
-            [<JsonProperty("data")>]
-            Data : (Data<'a> list) option
-            [<JsonProperty("scales")>]
-            Scales : (Scale list) option
-            [<JsonProperty("axes")>]
-            Axes : (Axis list) option
-            [<JsonProperty("legends")>]
-            Legends : (Legend list) option
-            [<JsonProperty("marks")>]
-            Marks : (Mark list) option
+            name : string
+            width : int
+            height : int
+            viewport : (int * int) option
+            padding : Padding option
+            data : (Data<'a> list) option
+            scales : (Scale list) option
+            axes : (Axis list) option
+            legends : (Legend list) option
+            marks : (Mark list) option
         }
 
     let DefaultElement<'a> : Element<'a> =
         {
-            Name = "data"; Width = 500; 
-            Height = 500; ViewPort = None; 
-            Padding = None; Data = None;
-            Scales = None; Axes = None;
-            Legends = None; Marks = None
+            name = "data"; width = 500; 
+            height = 500; viewport = None; 
+            padding = None; data = None;
+            scales = None; axes = None;
+            legends = None; marks = None
         }
 
 (* END Element *)
