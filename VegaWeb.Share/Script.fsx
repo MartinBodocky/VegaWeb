@@ -6,28 +6,36 @@ open System.IO
 open System.Data
 open System.Windows.Forms
 
-#I "../../bin/"
-#I "../../bin/Debug"
-#r "Newtonsoft.Json.dll"
-#r @"C:\GitHub\VegaWeb\packages\FSharp.Data.2.0.5\lib\net40\FSharp.Data.dll"
+#I "bin/Debug"
+#r "../packages/Newtonsoft.Json.6.0.2/lib/net45/Newtonsoft.Json.dll"
+#r "../packages/Owin.1.0/lib/net40/Owin.dll"
+#r "../packages/Microsoft.Owin.2.1.0/lib/net45/Microsoft.Owin.dll"
+#r "../packages/Microsoft.Owin.FileSystems.2.1.0/lib/net40/Microsoft.Owin.FileSystems.dll"
+#r "../packages/Microsoft.Owin.Hosting.2.1.0/lib/net45/Microsoft.Owin.Hosting.dll"
+#r "../packages/Microsoft.Owin.Security.2.0.1/lib/net45/Microsoft.Owin.Security.dll"
+#r "../packages/Microsoft.Owin.StaticFiles.2.1.0/lib/net45/Microsoft.Owin.StaticFiles.dll"
+#r "../packages/Microsoft.Owin.Host.HttpListener.2.1.0/lib/net45/Microsoft.Owin.Host.HttpListener.dll"
+#r "../packages/Microsoft.AspNet.SignalR.Core.2.0.3/lib/net45/Microsoft.AspNet.SignalR.Core.dll"
+#r "../packages/FSharp.Dynamic.1.4.2.0/lib/net40/FSharp.Dynamic.dll"
+#r "../packages/FSharp.Data.2.0.5/lib/net40/FSharp.Data.dll"
+
 open Newtonsoft.Json
 open FSharp.Data
 open FSharp.Data.CsvExtensions
 
-//#r "Newtonsoft.Json.FSharp.dll"
-#r @"C:\GitHub\VegaWeb\Newtonsoft.Json.FSharp\bin\Debug\Newtonsoft.Json.FSharp.dll"
+#r "Newtonsoft.Json.FSharp.dll"
 open Newtonsoft.Json.FSharp
 
-#load @"C:\GitHub\VegaWeb\Newtonsoft.Json.FSharp\Library.fs"
+#load "../Newtonsoft.Json.FSharp/Library.fs"
 open Newtonsoft.Json.FSharp
 
-#load @"C:\GitHub\VegaWeb\Newtonsoft.Json.FSharp\TupleConverter.fs"
+#load "../Newtonsoft.Json.FSharp/TupleConverter.fs"
 open Newtonsoft.Json.FSharp
 
-#load @"C:\GitHub\VegaWeb\Newtonsoft.Json.FSharp\UnionConverter.fs"
+#load "../Newtonsoft.Json.FSharp/UnionConverter.fs"
 open Newtonsoft.Json.FSharp
 
-#load @"C:\GitHub\VegaWeb\Newtonsoft.Json.FSharp\OptionConverter.fs"
+#load "../Newtonsoft.Json.FSharp/OptionConverter.fs"
 open Newtonsoft.Json.FSharp
 
 open Newtonsoft.Json
@@ -42,7 +50,13 @@ open VegaWeb.JSON
 open VegaWeb.Error
 #load "Scatter.fs"
 open VegaWeb.Scatter
+#load "VegaHub.fs"
+open VegaHub
 
+
+let requestUrl = "http://localhost:8081"
+let disposable = Vega.connect(requestUrl, __SOURCE_DIRECTORY__)
+System.Diagnostics.Process.Start(requestUrl + "/index.html")
 
 let datapath = __SOURCE_DIRECTORY__ + @"\iris.data"
 
@@ -67,6 +81,9 @@ let data =
 let scatter = scatter (data |> Seq.toList) ("XVar", "YVar", "Type")
 
 scatter |> toJSON |> Clipboard.SetText
+scatter |> Vega.send
+
+disposable.Dispose()
 
 
 type Error = { Label : string; Mean: int; Lo : float; Hi : float}
