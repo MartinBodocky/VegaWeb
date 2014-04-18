@@ -30,7 +30,6 @@ module JSON =
                                                   UnionConverter<AxisLayer>()
                                                   UnionConverter<LegendOrient>()
                                                   UnionConverter<MarkType>()
-                                                  UnionConverter<MarkFrom>()
                                                   UnionConverter<ColorValueRef>()
                                                 |]
     

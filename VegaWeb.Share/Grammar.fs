@@ -449,11 +449,11 @@ module Grammar =
             ticks : int option
             values : (System.Object list) option
             subdivide : float option
-            tickpadding : int option
-            ticksize : float option
-            ticksizemajor : float option
-            ticksizeminor : float option
-            ticksizeend : float option
+            tickPadding : int option
+            tickSize : float option
+            tickSizeMajor : float option
+            tickSizeMinor : float option
+            tickSizeEnd : float option
             layer : AxisLayer option
             offset : string option
             grid : bool option
@@ -465,9 +465,9 @@ module Grammar =
             ``type`` = X; scale = "x";
             orient = None; title = None; titleoffset = None;
             format = None; ticks = None; values = None;
-            subdivide = None; tickpadding = None; ticksize = None;
-            ticksizemajor = None; ticksizeminor = None;
-            ticksizeend = None; layer = None; grid = None;
+            subdivide = None; tickPadding = None; tickSize = None;
+            tickSizeMajor = None; tickSizeMinor = None;
+            tickSizeEnd = None; layer = None; grid = None;
             properties = None; offset = None
         }
 
@@ -544,15 +544,16 @@ module Grammar =
         | Image | Text
         | Group
         
-    type DataFrom =
+    type MarkFrom =
         {
-            data : string
+            data : string option
+            transforms : Transform list option
         }
 
-    type MarkFrom =
-        | Data of DataFrom
-        | Transforms of Transform list
-        | NoMark
+    let DefaultMarkFrom : MarkFrom =
+        {
+            data = None; transforms = None
+        }
 
     type MarkValueRef =
         {
@@ -701,7 +702,7 @@ module Grammar =
             ``type`` : MarkType
             name : string option
             description : string option
-            from : MarkFrom
+            from : MarkFrom option
             properties : MarkPropertySet
             key : string option
             delay : MarkValueRef option
@@ -712,7 +713,7 @@ module Grammar =
     let DefaultMark : Mark =
         {
             ``type`` = Rect; name = None; description = None;
-            from = NoMark; 
+            from = None; 
             properties = DefaultMarkPropertySet; 
             key = None; delay = None; ease = None; marks = None
         }

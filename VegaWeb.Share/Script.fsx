@@ -50,13 +50,47 @@ open VegaWeb.JSON
 open VegaWeb.Error
 #load "Scatter.fs"
 open VegaWeb.Scatter
+#load "Stocks.fs"
+open VegaWeb.Stocks
 #load "VegaHub.fs"
 open VegaHub
+
+
+let datapath = __SOURCE_DIRECTORY__ + @"\stocks.csv"
+
+type Stock = { 
+    Symbol: string;
+    Date: System.DateTime;
+    Price: float; }
+
+let data =
+    File.ReadAllLines(datapath)
+    |> fun lines -> lines.[1..]
+    |> Array.map (fun line -> line.Split(','))
+    |> Array.map (fun line -> 
+        {   Symbol = line.[0]
+            Date = DateTime.Parse(line.[1])
+            Price = line.[2] |> float
+            })
+
+let stocksChart = stocks (data |> Seq.toList) ("Symbol", "Date", "Price")
+
+stocksChart |> toJSON |> Clipboard.SetText
+
 
 
 let requestUrl = "http://localhost:8081"
 let disposable = Vega.connect(requestUrl, __SOURCE_DIRECTORY__)
 System.Diagnostics.Process.Start(requestUrl + "/index.html")
+
+stocksChart |> Vega.send
+
+disposable.Dispose()
+
+
+
+
+(*
 
 let datapath = __SOURCE_DIRECTORY__ + @"\iris.data"
 
@@ -83,9 +117,6 @@ let scatter = scatter (data |> Seq.toList) ("XVar", "YVar", "Type")
 scatter |> toJSON |> Clipboard.SetText
 scatter |> Vega.send
 
-disposable.Dispose()
-
-
 type Error = { Label : string; Mean: int; Lo : float; Hi : float}
 let errorData =
     [
@@ -111,8 +142,6 @@ let barElement = bar dataset ("X", "Y")
 
 barElement |> toJSON |> Clipboard.SetText
 
-
-(*
 
 *)
 

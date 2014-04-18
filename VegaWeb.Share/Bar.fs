@@ -70,7 +70,7 @@ module Bar =
             {
                 DefaultMark with 
                     ``type`` = Rect
-                    from = Data({ data = "table"})
+                    from = Some({ DefaultMarkFrom with data = Some("table") })
                     properties = properties
             }
 

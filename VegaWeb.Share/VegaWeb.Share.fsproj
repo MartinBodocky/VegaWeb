@@ -70,8 +70,9 @@
     <None Include="iris.data" />
     <Compile Include="VegaHub.fs" />
     <None Include="index.html" />
-    <None Include="Script.fsx" />
     <Compile Include="Stocks.fs" />
+    <None Include="Script.fsx" />
+    <None Include="stocks.csv" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Dynamitey">

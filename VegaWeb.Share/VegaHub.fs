@@ -29,10 +29,10 @@ module Vega =
     /// Launch the default web browser and connect SignalR using the specified url.
     [<CompiledName("Connect")>]
     let connect(url: string, filePath) =
-        printfn "HostFile %A" filePath
+        //printfn "HostFile %A" filePath
         let disposable = WebApp.Start(url, attachHub >> hostFiles filePath >> ignore)
         //let disposable = WebApp.Start(url, attachHub >> ignore)
-        printfn "Running chart hub on %s" url
+        //printfn "Running chart hub on %s" url
         disposable
 
     /// Send the spec to the Vega browser client via SignalR.

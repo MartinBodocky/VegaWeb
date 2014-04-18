@@ -45,7 +45,7 @@ module Error =
             {
                 DefaultMark with 
                     ``type`` = Symbol
-                    from = Data({ data = "stats"})
+                    from = Some({ DefaultMarkFrom with data = Some("stats")})
                     properties = symbolProperties
             }
 
@@ -66,7 +66,7 @@ module Error =
             {
                 DefaultMark with 
                     ``type`` = Rect
-                    from = Data({ data = "stats"})
+                    from = Some({ DefaultMarkFrom with data = Some("stats")})
                     properties = rectProperties
             }
 
@@ -89,7 +89,7 @@ module Error =
             {
                 DefaultMark with 
                     ``type`` = Text
-                    from = Data({ data = "stats"})
+                    from = Some({ DefaultMarkFrom with data = Some("stats")})
                     properties = textProperties
             }
         

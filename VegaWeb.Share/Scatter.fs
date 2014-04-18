@@ -107,7 +107,8 @@ module Scatter =
             {
                 DefaultMark with 
                     ``type`` = Symbol
-                    from = Data({ data = "iris"})
+
+                    from = Some({ DefaultMarkFrom with data = Some("iris")})
                     properties = properties
             }                        
                             

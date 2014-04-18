@@ -14,7 +14,7 @@ open VegaWeb.JSON
 type ``Testing my json converter``() =
     
     [<Test>]
-    member test.``Convert orintation object to JSON string``() =
+    member test.``Convert orientation object to JSON string``() =
         let innerPadding  = Orientation({ top = 10; left = 30; bottom = 30; right = 10})
         let Json = innerPadding |> toJSON
         Json |> should equal <| "{\r\n  \"top\": 10,\r\n  \"left\": 30,\r\n  \"right\": 10,\r\n  \"bottom\": 30\r\n}"
