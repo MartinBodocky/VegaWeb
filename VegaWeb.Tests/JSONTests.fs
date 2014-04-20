@@ -29,7 +29,7 @@ type ``Testing my json converter``() =
     member test.``Convert scale data to JSON string``() =
         let scaleX = 
             { 
-                DefaultScale with
+                DefaultOrdinalScale with
                     name = "x"
                     ``type`` = Ordinal
                     range = Some(Field(Width))
@@ -42,7 +42,7 @@ type ``Testing my json converter``() =
     member test.``Convert second scale data to JSON string``()=
         let scaleY =
             {
-                DefaultScale with
+                DefaultQuantitativeScale with
                     name = "y"
                     range = Some(Field(Height))
                     domain = Some(DataRef(One({data = "table"; field = "data." + "Y"})))

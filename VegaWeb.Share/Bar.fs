@@ -10,7 +10,7 @@ module Bar =
         let dataElement = { DefaultData with values = Some(dataset) }
         let scaleX = 
             { 
-                DefaultScale with
+                DefaultOrdinalScale with
                     name = "x"
                     ``type`` = Ordinal
                     range = Some(Field(Width))
@@ -19,7 +19,7 @@ module Bar =
 
         let scaleY =
             {
-                DefaultScale with
+                DefaultQuantitativeScale with
                     name = "y"
                     range = Some(Field(Height))
                     domain = Some(DataRef(One({data = "table"; field = "data." + y})))
@@ -28,42 +28,42 @@ module Bar =
         let axesX = { DefaultAxis with ``type`` = X; scale = "x" }
         let axesY = { DefaultAxis with ``type`` = Y; scale = "y" }
 
-        let markUpdate = Some({
-                                DefaultMarkVisualProperty with
-                                    fill = Some(Value({ value = "steelblue"}))
-                            })
-        let markHover = Some({
-                                DefaultMarkVisualProperty with
-                                    fill = Some(Value({ value = "Yellow"}))
-                            })
+        let markUpdate = {
+                            DefaultRectMarkVisualProperty with
+                                fill = Some(Value({ value = "steelblue"}))
+                            }
+        let markHover = {
+                            DefaultRectMarkVisualProperty with
+                                fill = Some(Value({ value = "Yellow"}))
+                        }
 
-        let markEnter = Some({
-                                DefaultMarkVisualProperty with
-                                    x = Some({
+        let markEnter = {
+                            DefaultRectMarkVisualProperty with
+                                x = Some({
+                                            DefaultMarkValueRef with
+                                                scale = Some("x"); field = Some("data." + x)
+                                    })
+                                width = Some({
                                                 DefaultMarkValueRef with
-                                                    scale = Some("x"); field = Some("data." + x)
+                                                    scale = Some("x"); band = Some(true)
+                                                    offset = Some(-1.)
                                         })
-                                    width = Some({
-                                                    DefaultMarkValueRef with
-                                                        scale = Some("x"); band = Some(true)
-                                                        offset = Some(-1.)
-                                            })
-                                    y = Some({
-                                                DefaultMarkValueRef with
-                                                    scale = Some("y"); field = Some("data." + y)
+                                y = Some({
+                                            DefaultMarkValueRef with
+                                                scale = Some("y"); field = Some("data." + y)
+                                    })
+                                y2 = Some({
+                                            DefaultMarkValueRef with
+                                                scale = Some("y"); value = Some( 0 |> string)
                                         })
-                                    y2 = Some({
-                                                DefaultMarkValueRef with
-                                                    scale = Some("y"); value = Some( 0 |> string)
-                                            })
-                            })
+                            }
 
         let properties : MarkPropertySet =
             {
                 DefaultMarkPropertySet with
-                    update = markUpdate
-                    hover = markHover
-                    enter = markEnter
+                    update = Some(RectType(markUpdate))
+                    hover = Some(RectType(markHover))
+                    enter = Some(RectType(markEnter))
             }
 
         let mark = 
@@ -71,7 +71,7 @@ module Bar =
                 DefaultMark with 
                     ``type`` = Rect
                     from = Some({ DefaultMarkFrom with data = Some("table") })
-                    properties = properties
+                    properties = Some(properties)
             }
 
         let barElement : Element<'a> =
@@ -79,7 +79,7 @@ module Bar =
                 DefaultElement with
                     padding = Some(innerPadding)
                     data = Some([ dataElement ])
-                    scales = Some([scaleX;  scaleY])
+                    scales = Some([OrdinalType(scaleX);  QuantType(scaleY)])
                     axes = Some([axesX; axesY])
                     marks = Some([mark])
             }

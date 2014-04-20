@@ -11,7 +11,7 @@ module Error =
 
         let scaleY = 
             { 
-                DefaultScale with
+                DefaultOrdinalScale with
                     name = "y"
                     ``type`` = Ordinal
                     range = Some(Field(Height))
@@ -20,7 +20,7 @@ module Error =
 
         let scaleX =
             {
-                DefaultScale with
+                DefaultQuantitativeScale with
                     name = "x"
                     range = Some(RangeArray(["100" ; "400"]))
                     domain = Some(DataRef(One({data = "stats"; field = "data." + hi})))
@@ -32,13 +32,13 @@ module Error =
         let symbolProperties : MarkPropertySet =
             {
                 DefaultMarkPropertySet with
-                    enter = Some({
-                                    DefaultMarkVisualProperty with
-                                        x = Some({ DefaultMarkValueRef with scale = Some("x"); field = Some("data." + mean) })
-                                        y = Some({ DefaultMarkValueRef with scale = Some("y"); field = Some("index")})
-                                        size = Some({ DefaultMarkValueRef with value = Some("40") })
-                                        fill = Some(Value({value = "#000"}))
-                    })
+                    enter = Some(SymbolType({
+                                            DefaultSymbolMarkVisualProperty with
+                                                x = Some({ DefaultMarkValueRef with scale = Some("x"); field = Some("data." + mean) })
+                                                y = Some({ DefaultMarkValueRef with scale = Some("y"); field = Some("index")})
+                                                size = Some({ DefaultMarkValueRef with value = Some("40") })
+                                                fill = Some(Value({value = "#000"}))
+                            }))
             }
 
         let symbolMark : Mark =
@@ -46,20 +46,20 @@ module Error =
                 DefaultMark with 
                     ``type`` = Symbol
                     from = Some({ DefaultMarkFrom with data = Some("stats")})
-                    properties = symbolProperties
+                    properties = Some(symbolProperties)
             }
 
         let rectProperties : MarkPropertySet =
             {
                 DefaultMarkPropertySet with
-                    enter = Some({
-                                    DefaultMarkVisualProperty with
-                                        x = Some({ DefaultMarkValueRef with scale = Some("x"); field = Some("data." + lo) })
-                                        x2 = Some({ DefaultMarkValueRef with scale = Some("x"); field = Some("data." + hi) })
-                                        y = Some({ DefaultMarkValueRef with scale = Some("y"); field = Some("index"); offset = Some(-1.)})
-                                        height = Some({ DefaultMarkValueRef with value = Some("1") })
-                                        fill = Some(Value({value = "#888"}))
-                    })
+                    enter = Some(RectType({
+                                            DefaultRectMarkVisualProperty with
+                                                x = Some({ DefaultMarkValueRef with scale = Some("x"); field = Some("data." + lo) })
+                                                x2 = Some({ DefaultMarkValueRef with scale = Some("x"); field = Some("data." + hi) })
+                                                y = Some({ DefaultMarkValueRef with scale = Some("y"); field = Some("index"); offset = Some(-1.)})
+                                                height = Some({ DefaultMarkValueRef with value = Some("1") })
+                                                fill = Some(Value({value = "#888"}))
+                    }))
             }
 
         let rectMark : Mark =
@@ -67,22 +67,23 @@ module Error =
                 DefaultMark with 
                     ``type`` = Rect
                     from = Some({ DefaultMarkFrom with data = Some("stats")})
-                    properties = rectProperties
+                    properties = Some(rectProperties)
             }
 
         let textProperties : MarkPropertySet =
             {
                 DefaultMarkPropertySet with
-                    enter = Some({
-                                    DefaultMarkVisualProperty with
-                                        x = Some({ DefaultMarkValueRef with value = Some("0") })
-                                        y = Some({ DefaultMarkValueRef with scale = Some("y"); field = Some("index")})
-                                        baseline = Some({ DefaultMarkValueRef with value = Some("middle") })
-                                        fill = Some(Value({value = "#000"}))
-                                        text = Some({ DefaultMarkValueRef with field = Some("data."+label) })
-                                        font = Some({ DefaultMarkValueRef with value = Some("Helvetica Neue") })
-                                        fontsize = Some({ DefaultMarkValueRef with value = Some("13") })
-                    })
+                    enter = Some(
+                                TextType({
+                                            DefaultTextMarkVisualProperty with
+                                                x = Some({ DefaultMarkValueRef with value = Some("0") })
+                                                y = Some({ DefaultMarkValueRef with scale = Some("y"); field = Some("index")})
+                                                baseline = Some({ DefaultMarkValueRef with value = Some("middle") })
+                                                fill = Some(Value({value = "#000"}))
+                                                text = Some({ DefaultMarkValueRef with field = Some("data."+label) })
+                                                font = Some({ DefaultMarkValueRef with value = Some("Helvetica Neue") })
+                                                fontsize = Some({ DefaultMarkValueRef with value = Some("13") })
+                            }))
             }
 
         let textMark : Mark =
@@ -90,7 +91,7 @@ module Error =
                 DefaultMark with 
                     ``type`` = Text
                     from = Some({ DefaultMarkFrom with data = Some("stats")})
-                    properties = textProperties
+                    properties = Some(textProperties)
             }
         
         let errorElement : Element<'a> =
@@ -100,7 +101,7 @@ module Error =
                     height = 100
                     padding = Some(innerPadding)
                     data = Some([ dataElement ])
-                    scales = Some([scaleX;  scaleY])
+                    scales = Some([OrdinalType(scaleY); QuantType(scaleX)])
                     axes = Some([axes])
                     marks = Some([textMark; rectMark; symbolMark])
             }

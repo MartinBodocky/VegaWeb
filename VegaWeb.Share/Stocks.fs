@@ -10,7 +10,7 @@ module Stocks =
 
         let scaleX = 
             { 
-                DefaultScale with
+                DefaultOrdinalScale with
                     name = "x"
                     range = Some(Field(Width))
                     domain = Some(DataRef(One({data = iDataName; field = "data." + date})))
@@ -18,7 +18,7 @@ module Stocks =
 
         let scaleY =
             {
-                DefaultScale with
+                DefaultQuantitativeScale with
                     name = "y"
                     range = Some(Field(Height))
                     domain = Some(DataRef(One({data = iDataName; field = "data." + price})))
@@ -26,7 +26,7 @@ module Stocks =
             }
         let scaleColor =
             {
-                DefaultScale with
+                DefaultOrdinalScale with
                     name = "color"
                     ``type`` = Ordinal
                     range = Some(Field(Category10))
@@ -38,33 +38,33 @@ module Stocks =
         let lineProperties : MarkPropertySet =
             {
                 DefaultMarkPropertySet with
-                    enter = Some({
-                                    DefaultMarkVisualProperty with
-                                        x = Some({ DefaultMarkValueRef with scale = Some("x"); field = Some("data." + date)})
-                                        y = Some({ DefaultMarkValueRef with scale = Some("y"); field = Some("data." + price)})
-                                        stroke = Some(VisualValue({ DefaultMarkValueRef with scale = Some("y"); field = Some("data." + symbol)}))
-                                        strokewidth = Some({ DefaultMarkValueRef with value = Some("2") })
-                    })
+                    enter = Some(LineType({
+                                            DefaultLineMarkVisualProperty with
+                                                x = Some({ DefaultMarkValueRef with scale = Some("x"); field = Some("data." + date)})
+                                                y = Some({ DefaultMarkValueRef with scale = Some("y"); field = Some("data." + price)})
+                                                stroke = Some(VisualValue({ DefaultMarkValueRef with scale = Some("color"); field = Some("data." + symbol)}))
+                                                strokewidth = Some({ DefaultMarkValueRef with value = Some("2") })
+                            }))
             }
 
         let lineMark : Mark =
             {
                 DefaultMark with 
-                    ``type`` = Text
-                    properties = lineProperties
+                    ``type`` = Line
+                    properties = Some(lineProperties)
             }
 
         let textProperties : MarkPropertySet =
             {
                 DefaultMarkPropertySet with
-                    enter = Some({
-                                    DefaultMarkVisualProperty with
-                                        x = Some({ DefaultMarkValueRef with scale = Some("x"); field = Some("data." + date); offset = Some(2.)})
-                                        y = Some({ DefaultMarkValueRef with scale = Some("y"); field = Some("data." + price)})
-                                        stroke = Some(VisualValue({ DefaultMarkValueRef with scale = Some("color"); field = Some("data." + symbol)}))
-                                        text = Some({ DefaultMarkValueRef with field = Some("data." + symbol) })
-                                        baseline = Some({ DefaultMarkValueRef with value = Some("middle") })
-                    })
+                    enter = Some(TextType({
+                                            DefaultTextMarkVisualProperty with
+                                                x = Some({ DefaultMarkValueRef with scale = Some("x"); field = Some("data." + date); offset = Some(2.)})
+                                                y = Some({ DefaultMarkValueRef with scale = Some("y"); field = Some("data." + price)})
+                                                fill = Some(VisualValue({ DefaultMarkValueRef with scale = Some("color"); field = Some("data." + symbol)}))
+                                                text = Some({ DefaultMarkValueRef with field = Some("data." + symbol) })
+                                                baseline = Some({ DefaultMarkValueRef with value = Some("middle") })
+                            }))
             }
 
         let textMark : Mark =
@@ -73,18 +73,18 @@ module Stocks =
                     ``type`` = Text
                     from = Some({ 
                                     DefaultMarkFrom with 
-                                        transforms = Some([Filter({
+                                        transform = Some([Filter({
                                                                     DefaultFilterTransform with
                                                                         test = Some("index==data.length-1")
                                                                 })])
                                     })
-                    properties = textProperties
+                    properties = Some(textProperties)
             }
 
         let dataFrom : MarkFrom =
             {
                 data = Some(iDataName)
-                transforms = Some([Facet({
+                transform = Some([Facet({
                                             DefaultFacetTransform with
                                                 keys = Some([ "data."+symbol ])
                                         })])
@@ -102,9 +102,9 @@ module Stocks =
             {
                 DefaultElement with
                     height = 200
-                    width = 200
+                    width = 500
                     data = Some([ dataSet ])
-                    scales = Some([scaleX;  scaleY; scaleColor])
+                    scales = Some([OrdinalType(scaleX); QuantType(scaleY); OrdinalType(scaleColor)])
                     axes = Some([axesX; axesY])
                     marks = Some([mark])
             }

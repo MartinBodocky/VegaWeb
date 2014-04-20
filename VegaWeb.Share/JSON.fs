@@ -31,6 +31,8 @@ module JSON =
                                                   UnionConverter<LegendOrient>()
                                                   UnionConverter<MarkType>()
                                                   UnionConverter<ColorValueRef>()
+                                                  UnionConverter<Scale>()
+                                                  UnionConverter<MarkVisualProperty>()
                                                 |]
     
     //JSON serializer settings where ignore null values

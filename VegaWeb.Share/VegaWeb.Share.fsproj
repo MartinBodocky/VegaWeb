@@ -66,13 +66,14 @@
     <Compile Include="Bar.fs" />
     <Compile Include="Scatter.fs" />
     <Compile Include="Error.fs" />
+    <Compile Include="Stocks.fs" />
     <None Include="app.config" />
     <None Include="iris.data" />
     <Compile Include="VegaHub.fs" />
     <None Include="index.html" />
-    <Compile Include="Stocks.fs" />
     <None Include="Script.fsx" />
     <None Include="stocks.csv" />
+    <None Include="Script2.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Dynamitey">

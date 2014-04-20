@@ -371,9 +371,7 @@ module Grammar =
         | Day | Week | Month
         | Year | True | False
 
-
-
-    type Scale =
+    type OrdinalScale =
         {
             name : string
             ``type`` : ScaleType
@@ -385,27 +383,75 @@ module Grammar =
             rangeMax : float option
             reverse : bool option
             round : bool option
-            //Ordinal Scale
             points : bool option
             padding: float option
             sort : bool option
-            // Time Scale
-            clamp : bool option
-            nice : NiceScale option
-            // Quantitative scale
-            exponent : float option
-            zero : bool option
         }
 
-    let DefaultScale : Scale = 
+    let DefaultOrdinalScale : OrdinalScale = 
         { 
             name = "x"; ``type`` = Linear; domain = None; 
             domainMax = None; domainMin = None; range = None;
             rangeMax = None; rangeMin = None; reverse = None;
             round = None; points = None; padding = None;
-            sort = None; clamp = None; nice = None;
+            sort = None;
+        }
+
+    type TimeScale =
+        {
+            name : string
+            ``type`` : ScaleType
+            domain : Domain option
+            domainMin : DomainValue option
+            domainMax : DomainValue option
+            range : Range option
+            rangeMin : float option
+            rangeMax : float option
+            reverse : bool option
+            round : bool option
+            clamp : bool option
+            nice : NiceScale option
+        }
+
+    let DefaultTimeScale : TimeScale = 
+        { 
+            name = "x"; ``type`` = Linear; domain = None; 
+            domainMax = None; domainMin = None; range = None;
+            rangeMax = None; rangeMin = None; reverse = None;
+            round = None; clamp = None; nice = None;
+        }
+
+    type QuantitativeScale =
+        {
+            name : string
+            ``type`` : ScaleType
+            domain : Domain option
+            domainMin : DomainValue option
+            domainMax : DomainValue option
+            range : Range option
+            rangeMin : float option
+            rangeMax : float option
+            reverse : bool option
+            round : bool option
+            clamp : bool option
+            nice : NiceScale option
+            exponent : float option
+            zero : bool option
+        }
+
+    let DefaultQuantitativeScale : QuantitativeScale = 
+        { 
+            name = "x"; ``type`` = Linear; domain = None; 
+            domainMax = None; domainMin = None; range = None;
+            rangeMax = None; rangeMin = None; reverse = None;
+            round = None; clamp = None; nice = None;
             exponent = None; zero = None
         }
+
+    type Scale =
+        | OrdinalType of OrdinalScale
+        | TimeType of TimeScale
+        | QuantType of QuantitativeScale
 
 (* END Scale*)
 
@@ -547,12 +593,12 @@ module Grammar =
     type MarkFrom =
         {
             data : string option
-            transforms : Transform list option
+            transform : Transform list option
         }
 
     let DefaultMarkFrom : MarkFrom =
         {
-            data = None; transforms = None
+            data = None; transform = None
         }
 
     type MarkValueRef =
@@ -622,7 +668,7 @@ module Grammar =
         | Value of ColorValue
         | VisualValue of MarkValueRef
 
-    type MarkVisualProperty =
+    type RectMarkVisualProperty =
         {
             x : MarkValueRef option
             x2 : MarkValueRef option
@@ -638,24 +684,218 @@ module Grammar =
             strokeopacity  : MarkValueRef option
             strokedash : MarkValueRef option
             strokedashoffset : MarkValueRef option
-            //Symbol
+        }
+
+    let DefaultRectMarkVisualProperty : RectMarkVisualProperty =
+        {
+            x = None; x2 = None; width = None; y = None;
+            y2 = None; height = None; opacity = None;
+            fill = None; fillOpacity = None; stroke = None;
+            strokewidth = None; strokeopacity = None;
+            strokedash = None; strokedashoffset = None;
+        }
+
+    type SymbolMarkVisualProperty =
+        {
+            x : MarkValueRef option
+            x2 : MarkValueRef option
+            width : MarkValueRef option
+            y : MarkValueRef option
+            y2 : MarkValueRef option
+            height : MarkValueRef option
+            opacity : MarkValueRef option
+            fill : ColorValueRef option
+            fillOpacity : MarkValueRef option
+            stroke : ColorValueRef option
+            strokewidth : MarkValueRef option
+            strokeopacity  : MarkValueRef option
+            strokedash : MarkValueRef option
+            strokedashoffset : MarkValueRef option
             size : MarkValueRef option
             shape : MarkValueRef option
-            //Path
+        }
+
+    let DefaultSymbolMarkVisualProperty : SymbolMarkVisualProperty =
+        {
+            x = None; x2 = None; width = None; y = None;
+            y2 = None; height = None; opacity = None;
+            fill = None; fillOpacity = None; stroke = None;
+            strokewidth = None; strokeopacity = None;
+            strokedash = None; strokedashoffset = None;
+            size = None; shape = None;
+        }
+
+    type PathMarkVisualProperty =
+        {
+            x : MarkValueRef option
+            x2 : MarkValueRef option
+            width : MarkValueRef option
+            y : MarkValueRef option
+            y2 : MarkValueRef option
+            height : MarkValueRef option
+            opacity : MarkValueRef option
+            fill : ColorValueRef option
+            fillOpacity : MarkValueRef option
+            stroke : ColorValueRef option
+            strokewidth : MarkValueRef option
+            strokeopacity  : MarkValueRef option
+            strokedash : MarkValueRef option
+            strokedashoffset : MarkValueRef option
             path : MarkValueRef option
-            //Arc
+        }
+
+    let DefaultPathMarkVisualProperty : PathMarkVisualProperty =
+        {
+            x = None; x2 = None; width = None; y = None;
+            y2 = None; height = None; opacity = None;
+            fill = None; fillOpacity = None; stroke = None;
+            strokewidth = None; strokeopacity = None;
+            strokedash = None; strokedashoffset = None;
+            path = None
+        }
+
+    type ArcMarkVisualProperty =
+        {
+            x : MarkValueRef option
+            x2 : MarkValueRef option
+            width : MarkValueRef option
+            y : MarkValueRef option
+            y2 : MarkValueRef option
+            height : MarkValueRef option
+            opacity : MarkValueRef option
+            fill : ColorValueRef option
+            fillOpacity : MarkValueRef option
+            stroke : ColorValueRef option
+            strokewidth : MarkValueRef option
+            strokeopacity  : MarkValueRef option
+            strokedash : MarkValueRef option
+            strokedashoffset : MarkValueRef option
             innerradius : MarkValueRef option
             outerradius : MarkValueRef option
             startangle : MarkValueRef option
             endangle : MarkValueRef option
-            //Area - Line
+        }
+
+    let DefaultArcMarkVisualProperty : ArcMarkVisualProperty =
+        {
+            x = None; x2 = None; width = None; y = None;
+            y2 = None; height = None; opacity = None;
+            fill = None; fillOpacity = None; stroke = None;
+            strokewidth = None; strokeopacity = None;
+            strokedash = None; strokedashoffset = None;
+            innerradius = None; outerradius = None;
+            startangle = None; endangle = None;
+        }
+
+    type AreaMarkVisualProperty =
+        {
+            x : MarkValueRef option
+            x2 : MarkValueRef option
+            width : MarkValueRef option
+            y : MarkValueRef option
+            y2 : MarkValueRef option
+            height : MarkValueRef option
+            opacity : MarkValueRef option
+            fill : ColorValueRef option
+            fillOpacity : MarkValueRef option
+            stroke : ColorValueRef option
+            strokewidth : MarkValueRef option
+            strokeopacity  : MarkValueRef option
+            strokedash : MarkValueRef option
+            strokedashoffset : MarkValueRef option
             interpolate : MarkValueRef option
             tension : MarkValueRef option
-            //Image
+        }
+
+    let DefaultAreaMarkVisualProperty : AreaMarkVisualProperty =
+        {
+            x = None; x2 = None; width = None; y = None;
+            y2 = None; height = None; opacity = None;
+            fill = None; fillOpacity = None; stroke = None;
+            strokewidth = None; strokeopacity = None;
+            strokedash = None; strokedashoffset = None;
+            interpolate = None; tension = None
+        }
+
+    type ImageMarkVisualProperty =
+        {
+            x : MarkValueRef option
+            x2 : MarkValueRef option
+            width : MarkValueRef option
+            y : MarkValueRef option
+            y2 : MarkValueRef option
+            height : MarkValueRef option
+            opacity : MarkValueRef option
+            fill : ColorValueRef option
+            fillOpacity : MarkValueRef option
+            stroke : ColorValueRef option
+            strokewidth : MarkValueRef option
+            strokeopacity  : MarkValueRef option
+            strokedash : MarkValueRef option
+            strokedashoffset : MarkValueRef option
             url : MarkValueRef option
             align : MarkValueRef option
             baseline : MarkValueRef option
-            //Text 
+        }
+
+    let DefaultImageMarkVisualProperty : ImageMarkVisualProperty =
+        {
+            x = None; x2 = None; width = None; y = None;
+            y2 = None; height = None; opacity = None;
+            fill = None; fillOpacity = None; stroke = None;
+            strokewidth = None; strokeopacity = None;
+            strokedash = None; strokedashoffset = None;
+            url = None; align = None; baseline = None
+        }
+
+    type LineMarkVisualProperty =
+        {
+            x : MarkValueRef option
+            x2 : MarkValueRef option
+            width : MarkValueRef option
+            y : MarkValueRef option
+            y2 : MarkValueRef option
+            height : MarkValueRef option
+            opacity : MarkValueRef option
+            fill : ColorValueRef option
+            fillOpacity : MarkValueRef option
+            stroke : ColorValueRef option
+            strokewidth : MarkValueRef option
+            strokeopacity  : MarkValueRef option
+            strokedash : MarkValueRef option
+            strokedashoffset : MarkValueRef option
+            url : MarkValueRef option
+            align : MarkValueRef option
+            baseline : MarkValueRef option
+        }
+
+    let DefaultLineMarkVisualProperty : LineMarkVisualProperty =
+        {
+            x = None; x2 = None; width = None; y = None;
+            y2 = None; height = None; opacity = None;
+            fill = None; fillOpacity = None; stroke = None;
+            strokewidth = None; strokeopacity = None;
+            strokedash = None; strokedashoffset = None;
+            url = None; align = None; baseline = None
+        }
+
+    type TextMarkVisualProperty =
+        {
+            x : MarkValueRef option
+            x2 : MarkValueRef option
+            width : MarkValueRef option
+            y : MarkValueRef option
+            y2 : MarkValueRef option
+            height : MarkValueRef option
+            opacity : MarkValueRef option
+            fill : ColorValueRef option
+            fillOpacity : MarkValueRef option
+            stroke : ColorValueRef option
+            strokewidth : MarkValueRef option
+            strokeopacity  : MarkValueRef option
+            strokedash : MarkValueRef option
+            strokedashoffset : MarkValueRef option
+            baseline : MarkValueRef option
             text : MarkValueRef option
             dx : MarkValueRef option
             dy : MarkValueRef option
@@ -666,22 +906,27 @@ module Grammar =
             fontstyle : MarkValueRef option
         }
 
-    let DefaultMarkVisualProperty : MarkVisualProperty =
+    let DefaultTextMarkVisualProperty : TextMarkVisualProperty =
         {
             x = None; x2 = None; width = None; y = None;
             y2 = None; height = None; opacity = None;
             fill = None; fillOpacity = None; stroke = None;
             strokewidth = None; strokeopacity = None;
             strokedash = None; strokedashoffset = None;
-            size = None; shape = None; path = None;
-            innerradius = None; outerradius = None;
-            startangle = None; endangle = None;
-            interpolate = None; tension = None;
-            url = None; align = None; baseline = None;
-            text = None; dx = None; dy = None;
-            angle = None; font = None; fontsize = None;
-            fontweight = None; fontstyle = None
+            text = None; dx = None; dy = None; angle = None;
+            font = None; fontsize = None; fontweight = None;
+            fontstyle = None; baseline = None
         }
+
+    type MarkVisualProperty =
+        | RectType of RectMarkVisualProperty
+        | SymbolType of SymbolMarkVisualProperty
+        | Path of PathMarkVisualProperty
+        | ArcType of ArcMarkVisualProperty
+        | AreaType of AreaMarkVisualProperty
+        | LineType of LineMarkVisualProperty
+        | ImageType of ImageMarkVisualProperty
+        | TextType of TextMarkVisualProperty
 
     type MarkPropertySet =
         {
@@ -703,7 +948,7 @@ module Grammar =
             name : string option
             description : string option
             from : MarkFrom option
-            properties : MarkPropertySet
+            properties : MarkPropertySet option
             key : string option
             delay : MarkValueRef option
             ease : EaseFunction option
@@ -713,8 +958,7 @@ module Grammar =
     let DefaultMark : Mark =
         {
             ``type`` = Rect; name = None; description = None;
-            from = None; 
-            properties = DefaultMarkPropertySet; 
+            from = None; properties = None; 
             key = None; delay = None; ease = None; marks = None
         }
 

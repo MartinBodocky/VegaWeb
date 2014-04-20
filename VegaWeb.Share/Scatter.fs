@@ -9,7 +9,7 @@ module Scatter =
 
         let scaleX = 
             { 
-                DefaultScale with
+                DefaultQuantitativeScale with
                     name = "x"
                     nice = Some(True)
                     range = Some(Field(Width))
@@ -18,7 +18,7 @@ module Scatter =
 
         let scaleY =
             {
-                DefaultScale with
+                DefaultQuantitativeScale with
                     name = "y"
                     range = Some(Field(Height))
                     domain = Some(DataRef(One({data = "iris"; field = "data." + y})))
@@ -26,7 +26,7 @@ module Scatter =
             }
         let scaleC =
             {
-                DefaultScale with
+                DefaultOrdinalScale with
                     name = "c"
                     ``type`` = Ordinal
                     range = Some(RangeArray(["#800"; "#080"; "#008"]))
@@ -58,49 +58,49 @@ module Scatter =
                     properties = Some(legendProperties)
             }
 
-        let markUpdate = Some({
-                                DefaultMarkVisualProperty with
-                                    size = Some({
-                                                    DefaultMarkValueRef with
-                                                        value = Some("100")
-                                                })
-                                    stroke = Some(Value({ value = "transparent"}))
-                            })
-        let markHover = Some({
-                                DefaultMarkVisualProperty with
-                                    size = Some({
-                                                    DefaultMarkValueRef with
-                                                        value = Some("300")
-                                                })
-                                    stroke = Some(Value({ value = "white"}))
-                            })
+        let markUpdate = {
+                            DefaultSymbolMarkVisualProperty with
+                                size = Some({
+                                                DefaultMarkValueRef with
+                                                    value = Some("100")
+                                            })
+                                stroke = Some(Value({ value = "transparent"}))
+                        }
+        let markHover = {
+                            DefaultSymbolMarkVisualProperty with
+                                size = Some({
+                                                DefaultMarkValueRef with
+                                                    value = Some("300")
+                                            })
+                                stroke = Some(Value({ value = "white"}))
+                        }
 
-        let markEnter = Some({
-                                DefaultMarkVisualProperty with
-                                    x = Some({
-                                                DefaultMarkValueRef with
-                                                    scale = Some("x"); field = Some("data." + x)
-                                        })
-                                    y = Some({
-                                                DefaultMarkValueRef with
-                                                    scale = Some("y"); field = Some("data." + y)
-                                        })
-                                    fill = Some(VisualValue({
-                                                            DefaultMarkValueRef with
-                                                                scale = Some("c"); field = Some("data." + c)
-                                            }))
-                                    fillOpacity = Some({
+        let markEnter = {
+                            DefaultRectMarkVisualProperty with
+                                x = Some({
+                                            DefaultMarkValueRef with
+                                                scale = Some("x"); field = Some("data." + x)
+                                    })
+                                y = Some({
+                                            DefaultMarkValueRef with
+                                                scale = Some("y"); field = Some("data." + y)
+                                    })
+                                fill = Some(VisualValue({
                                                         DefaultMarkValueRef with
-                                                            value = Some("0.5")
-                                                    })
-                            })
+                                                            scale = Some("c"); field = Some("data." + c)
+                                        }))
+                                fillOpacity = Some({
+                                                    DefaultMarkValueRef with
+                                                        value = Some("0.5")
+                                                })
+                        }
 
         let properties : MarkPropertySet =
             {
                 DefaultMarkPropertySet with
-                    update = markUpdate
-                    hover = markHover
-                    enter = markEnter
+                    update = Some(SymbolType(markUpdate))
+                    hover = Some(SymbolType(markHover))
+                    enter = Some(RectType(markEnter))
             }
 
         let mark = 
@@ -109,7 +109,7 @@ module Scatter =
                     ``type`` = Symbol
 
                     from = Some({ DefaultMarkFrom with data = Some("iris")})
-                    properties = properties
+                    properties = Some(properties)
             }                        
                             
         
@@ -119,9 +119,12 @@ module Scatter =
                     height = 200
                     width = 200
                     data = Some([ dataSet ])
-                    scales = Some([scaleX;  scaleY; scaleC])
+                    scales = Some([ QuantType(scaleX); QuantType(scaleY); OrdinalType(scaleC)])
                     legends = Some([ legend ])
                     axes = Some([axesX; axesY])
                     marks = Some([mark])
             }
         scatterElement
+
+
+
